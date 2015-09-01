@@ -21,7 +21,7 @@ import java.util.logging.Handler;
  * Created by 大灯泡 on 2015/9/1.
  * 请将所有的startActivity，所有关于UI的工具类都放到这里
  */
-public class UIHelper {
+public class UIHelper { 
     /**
      * 将px值转换为dip或dp值，保证尺寸大小不变
      */
