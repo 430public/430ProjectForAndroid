@@ -1,11 +1,14 @@
-package com.projectforandroid;
+package com.projectforandroid.ui.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+import com.projectforandroid.R;
+
+
+public class AppStart extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
