@@ -7,7 +7,10 @@ import android.view.MenuItem;
 
 import com.projectforandroid.R;
 
-
+/**
+ * Created by 大灯泡 on 2015/9/1.
+ * 启动的第一个界面
+ */
 public class AppStart extends AppCompatActivity {
 
     @Override
