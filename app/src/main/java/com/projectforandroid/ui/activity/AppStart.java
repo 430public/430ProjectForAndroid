@@ -1,16 +1,23 @@
-package com.projectforandroid;
+package com.projectforandroid.ui.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+import com.projectforandroid.R;
+import com.projectforandroid.ui.activity.base.BaseActivity;
+
+/**
+ * Created by 大灯泡 on 2015/9/1.
+ * 启动的第一个界面
+ */
+public class AppStart extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_appstart);
     }
 
     @Override
