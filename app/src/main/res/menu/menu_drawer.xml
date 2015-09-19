@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_personal_star"
+            android:icon="@drawable/personal_star"
+            android:title="@string/personal_star"
+            />
+        <item
+            android:id="@+id/menu_personal_detail"
+            android:icon="@drawable/personal_detail"
+            android:title="@string/personal_detail" />
+        <item
+            android:id="@+id/menu_about"
+            android:icon="@drawable/about_help"
+            android:title="@string/about_help" />
+        <item
+            android:id="@+id/menu_setting"
+            android:icon="@drawable/setting"
+            android:title="@string/setting" />
+    </group>
+</menu>

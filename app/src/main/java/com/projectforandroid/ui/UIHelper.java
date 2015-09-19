@@ -21,7 +21,7 @@ import java.util.logging.Handler;
  * Created by 大灯泡 on 2015/9/1.
  * 请将所有的startActivity，所有关于UI的工具类都放到这里
  */
-public class UIHelper { 
+public class UIHelper {
     /**
      * 将px值转换为dip或dp值，保证尺寸大小不变
      */
@@ -114,9 +114,8 @@ public class UIHelper {
     }
 
     /**自定义信息*/
-    private static void ToastMessage(Context context, String msg, int iconResid) {
-        View view = (View) LayoutInflater.from(context).inflate(
-                R.layout.widget_toast_view, null);
+    public static void ToastMessage(Context context, String msg, int iconResid) {
+        View view = (View) LayoutInflater.from(context).inflate(R.layout.widget_toast_view, null);
         TextView toast_msg = (TextView) view.findViewById(R.id.toast_msg);
         ImageView toast_icon = (ImageView) view.findViewById(R.id.toast_icon);
         if (iconResid > 0) {
@@ -132,7 +131,14 @@ public class UIHelper {
         toast.show();
     }
 
-
+    /**判断view是否为空*/
+    public static boolean isViewNull(View...views){
+        for (View v : views){
+            if (v==null)
+                return true;
+        }
+        return false;
+    }
     //------------------------------------------启动Activity的方法请放到这里---------------------------------------------
 
 }

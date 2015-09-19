@@ -6,17 +6,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.projectforandroid.R;
+import com.projectforandroid.ui.activity.base.BaseActivity;
 
 /**
  * Created by 大灯泡 on 2015/9/1.
  * 启动的第一个界面
  */
-public class AppStart extends AppCompatActivity {
+public class AppStart extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_appstart);
     }
 
     @Override

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_menu_header"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_160"
+    >
+    <ImageView
+        android:id="@+id/menu_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:src="@drawable/default_menu_bg"
+        android:scaleType="centerCrop"
+        />
+    <ImageView
+        android:id="@+id/exit_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/exit_account"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_8"
+        />
+    <RelativeLayout
+        android:id="@+id/personal_detail_layout"
+        android:layout_width="wrap_content"
+        android:layout_toLeftOf="@id/exit_account"
+        android:layout_alignParentLeft="true"
+        android:layout_height="@dimen/dp_48"
+        android:paddingLeft="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dp_16"
+        >
+        <TextView
+            android:id="@+id/nick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLength="10"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_14"
+            tools:text="对不起，我不想伤害穹的"
+            />
+        <TextView
+            android:id="@+id/mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nick"
+            android:inputType="textEmailAddress"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_14"
+            tools:text="fengweichao@iduoju.com"
+            android:layout_marginTop="@dimen/dp_8"
+            />
+
+    </RelativeLayout>
+
+    <com.projectforandroid.widget.CircleImageView
+        android:id="@+id/avatar"
+        android:layout_width="@dimen/dp_48"
+        android:layout_height="@dimen/dp_48"
+        android:src="@drawable/default_avatar"
+        android:layout_above="@id/personal_detail_layout"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:layout_marginLeft="@dimen/dp_16"
+        />
+
+
+</RelativeLayout>

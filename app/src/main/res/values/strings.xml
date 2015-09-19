@@ -3,4 +3,9 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <!--抽屉菜单-->
+    <string name="personal_star">个人收藏</string>
+    <string name="personal_detail">个人资料</string>
+    <string name="about_help">帮助/关于</string>
+    <string name="setting">设置</string>
 </resources>
