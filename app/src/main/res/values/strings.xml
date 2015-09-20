@@ -8,4 +8,8 @@
     <string name="personal_detail">个人资料</string>
     <string name="about_help">帮助/关于</string>
     <string name="setting">设置</string>
+
+    <!--toolbar描述打开/关闭-->
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
 </resources>

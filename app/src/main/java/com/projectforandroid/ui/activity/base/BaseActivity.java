@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.internal.app.ToolbarActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +32,10 @@ public class BaseActivity extends AppCompatActivity
     protected TextView mail;//邮箱
     protected CircleImageView avatar;//头像
     protected ImageView menuBackground;//背景
+    private onDrawerOpenedListener mOnDrawerOpenedListener;
+    private onDrawerClosedListener mOnDrawerClosedListener;
+
+    private ActionBarDrawerToggle mActionBarDrawerToggle;//toolbar动画
 
     protected Toolbar toolbar;
 
@@ -61,15 +65,35 @@ public class BaseActivity extends AppCompatActivity
         mail = (TextView) findViewById(R.id.mail);
         avatar = (CircleImageView) findViewById(R.id.avatar);
         menuBackground = (ImageView) findViewById(R.id.menu_bg);
-        toolbar= (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        if (!UIHelper.isViewNull(toolbar,mDrawerMenu,mNavigationView,nick,mail,avatar,menuBackground)) {
+        if (!UIHelper.isViewNull(toolbar, mDrawerMenu, mNavigationView, nick, mail, avatar,
+            menuBackground)) {
             setSupportActionBar(toolbar);
             mNavigationView.setNavigationItemSelectedListener(this);
             menuBackground.setImageDrawable(picUtils.background(R.drawable.default_menu_bg));
+
+            //动画
+            mActionBarDrawerToggle =
+                new ActionBarDrawerToggle(this, mDrawerMenu, toolbar, R.string.drawer_open,
+                    R.string.drawer_close){
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        super.onDrawerOpened(drawerView);
+                        if (mOnDrawerOpenedListener!=null)
+                            mOnDrawerOpenedListener.onDrawerOpened(drawerView);
+                    }
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                        super.onDrawerClosed(drawerView);
+                        if (mOnDrawerClosedListener!=null)
+                            mOnDrawerClosedListener.onDrawerClosed(drawerView);
+                    }
+                };
+            mActionBarDrawerToggle.syncState();
+            mDrawerMenu.setDrawerListener(mActionBarDrawerToggle);
         }
     }
-
 
     //------------------------------------------内存紧张重写的方法-----------------------------------------------
     @Override
@@ -118,4 +142,26 @@ public class BaseActivity extends AppCompatActivity
         }
         return true;
     }
+
+    //------------------------------------------Setter--------------------------------------------
+
+    public void setOnDrawerOpenedListener(onDrawerOpenedListener onDrawerOpenedListener) {
+        mOnDrawerOpenedListener = onDrawerOpenedListener;
+    }
+
+    public void setOnDrawerClosedListener(onDrawerClosedListener onDrawerClosedListener) {
+        mOnDrawerClosedListener = onDrawerClosedListener;
+    }
+
+    //------------------------------------------接口-----------------------------------------------
+    public interface onDrawerOpenedListener{
+        void onDrawerOpened(View drawerView);
+    }
+
+    public interface onDrawerClosedListener{
+        void onDrawerClosed(View drawerView);
+    }
+
+
+
 }
