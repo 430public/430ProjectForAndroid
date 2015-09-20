@@ -2,20 +2,19 @@ package com.projectforandroid.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.projectforandroid.R;
-
-import java.util.logging.Handler;
 
 /**
  * Created by 大灯泡 on 2015/9/1.
@@ -82,25 +81,83 @@ public class UIHelper {
      * 得到屏幕宽高，返回Int数组，int[0]=宽，int[1]=高
      */
     public static int[] getScreenWH(Activity activity) {
-        int[] WH = {0, 0};
+        int[] WH = { 0, 0 };
         DisplayMetrics metrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         WH[0] = metrics.widthPixels;
         WH[1] = metrics.heightPixels;
         return WH;
     }
+
+    /**
+     * 获得屏幕高度
+     */
+    public static int getScreenWidth(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.widthPixels;
+    }
+
+    /**
+     * 获得屏幕宽度
+     */
+    public static int getScreenHeight(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.heightPixels;
+    }
+
+    /**
+     * 获取当前屏幕截图，包含状态栏
+     */
+    public static Bitmap snapShotWithStatusBar(Activity activity) {
+        View view = activity.getWindow().getDecorView();
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+        Bitmap bmp = view.getDrawingCache();
+        int width = getScreenWidth(activity);
+        int height = getScreenHeight(activity);
+        Bitmap bp = null;
+        bp = Bitmap.createBitmap(bmp, 0, 0, width, height);
+        view.destroyDrawingCache();
+        return bp;
+    }
+
+    /**
+     * 获取当前屏幕截图，不包含状态栏
+     */
+    public static Bitmap snapShotWithoutStatusBar(Activity activity) {
+        View view = activity.getWindow().getDecorView();
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+        Bitmap bmp = view.getDrawingCache();
+        Rect frame = new Rect();
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+        int statusBarHeight = frame.top;
+
+        int width = getScreenWidth(activity);
+        int height = getScreenHeight(activity);
+        Bitmap bp = null;
+        bp = Bitmap.createBitmap(bmp, 0, statusBarHeight, width, height - statusBarHeight);
+        view.destroyDrawingCache();
+        return bp;
+    }
+
     /** 隐藏软键盘 */
     public static void hideInputMethod(View view) {
-        InputMethodManager imm = (InputMethodManager) view.getContext()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm =
+            (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
     /** 显示软键盘 */
     public static void showInputMethod(View view) {
-        InputMethodManager imm = (InputMethodManager) view.getContext()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm =
+            (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         }
@@ -108,12 +165,12 @@ public class UIHelper {
 
     /** 显示软键盘 */
     public static void showInputMethod(Context context) {
-        InputMethodManager imm = (InputMethodManager) context
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm =
+            (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    /**自定义信息*/
+    /** 自定义信息 */
     public static void ToastMessage(Context context, String msg, int iconResid) {
         View view = (View) LayoutInflater.from(context).inflate(R.layout.widget_toast_view, null);
         TextView toast_msg = (TextView) view.findViewById(R.id.toast_msg);
@@ -131,14 +188,12 @@ public class UIHelper {
         toast.show();
     }
 
-    /**判断view是否为空*/
-    public static boolean isViewNull(View...views){
-        for (View v : views){
-            if (v==null)
-                return true;
+    /** 判断view是否为空 */
+    public static boolean isViewNull(View... views) {
+        for (View v : views) {
+            if (v == null) return true;
         }
         return false;
     }
     //------------------------------------------启动Activity的方法请放到这里---------------------------------------------
-
 }

@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.projectforandroid.R;
 import com.projectforandroid.ui.UIHelper;
-import com.projectforandroid.utils.picUtils;
+import com.projectforandroid.utils.BitmapUtils;
 import com.projectforandroid.utils.stackutils.AppManager;
 import com.projectforandroid.widget.CircleImageView;
 
@@ -71,7 +71,7 @@ public class BaseActivity extends AppCompatActivity
             menuBackground)) {
             setSupportActionBar(toolbar);
             mNavigationView.setNavigationItemSelectedListener(this);
-            menuBackground.setImageDrawable(picUtils.background(R.drawable.default_menu_bg));
+            menuBackground.setImageDrawable(BitmapUtils.background(R.drawable.default_menu_bg));
 
             //动画
             mActionBarDrawerToggle =
