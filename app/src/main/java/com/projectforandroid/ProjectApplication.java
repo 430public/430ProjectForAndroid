@@ -2,6 +2,7 @@ package com.projectforandroid;
 
 import android.app.Application;
 import android.content.Context;
+import com.projectforandroid.imageloader.ImageLoaderCache;
 
 /**
  * Created by 大灯泡 on 2015/9/19.
@@ -16,6 +17,7 @@ public class ProjectApplication extends Application{
         super.onCreate();
         ProjectApplication.context=getApplicationContext();
         ProjectApplication.version="1.0.0";
+        new ImageLoaderCache().initImageLoader();
     }
 
     //------------------------------------------代码中得到各种xml属性-----------------------------------------------
