@@ -30,6 +30,9 @@ public class ProjectApplication extends Application{
     public static float getResDimen(int dimenRes){
         return context.getResources().getDimension(dimenRes);
     }
-
+    //------------------------------------------各种得到的方法-----------------------------------------------
+    public static String getPackName(){
+        return context.getPackageName();
+    }
 
 }

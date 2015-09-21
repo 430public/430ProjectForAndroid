@@ -12,7 +12,11 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.util.Log;
 import com.projectforandroid.ProjectApplication;
+import com.projectforandroid.imageloader.ImageLoaderCache;
+import com.projectforandroid.ui.UIHelper;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -185,10 +189,9 @@ public class BitmapUtils {
         return Bitmap.createBitmap(org, 0, 0, org.getWidth(), org.getHeight(), matrix, true);
     }
 
-    /**保存bitmap*/
-    public static boolean saveBitmap(File file, Bitmap bitmap){
-        if(file == null || bitmap == null)
-            return false;
+    /** 保存bitmap */
+    public static boolean saveBitmap(File file, Bitmap bitmap) {
+        if (file == null || bitmap == null) return false;
         try {
             BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
             return bitmap.compress(CompressFormat.JPEG, 100, out);
@@ -196,5 +199,67 @@ public class BitmapUtils {
             e.printStackTrace();
             return false;
         }
+    }
+
+    // 计算图片的缩放值
+    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth,
+        int reqHeight) {
+        int height = options.outHeight;
+        int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            int heightRatio = Math.round((float) height / (float) reqHeight);
+            int widthRatio = Math.round((float) width / (float) reqWidth);
+            inSampleSize = widthRatio;
+            if (heightRatio > widthRatio) inSampleSize = heightRatio;
+        }
+        return inSampleSize;
+    }
+
+    public static BitmapFactory.Options getOptions(byte[] data) {
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+
+        if (data == null || data.length == 0) return null;
+
+        // 读出高宽做参数解析优化
+        opts.inJustDecodeBounds = true;
+        BitmapFactory.decodeByteArray(data, 0, data.length, opts);
+        if (opts.outMimeType == null || opts.outMimeType.equals("image/jpeg")) {
+            opts.inPreferredConfig = Bitmap.Config.RGB_565;
+        }
+        opts.inSampleSize = calculateInSampleSize(opts,
+            (int) (UIHelper.getScreenWidth(ProjectApplication.context) * 1.2f),
+            (int) (UIHelper.getScreenHeight(ProjectApplication.context) * 1.2f));
+
+        opts.inJustDecodeBounds = false;
+        return opts;
+    }
+
+    public static Bitmap decodeByteArray(byte[] data) {
+        BitmapFactory.Options opts = getOptions(data);
+
+        if (opts == null) return null;
+
+        Bitmap bmp = null;
+        for (int i = 0; i < 2; i++) {
+            try {
+                bmp = BitmapFactory.decodeByteArray(data, 0, data.length, opts);
+                break;
+            } catch (final OutOfMemoryError oom) {
+                Log.i("OutOfMemoryError", "out of memory, clearing mem cache");
+                ImageLoaderCache.getInstance()
+                                .getImageLoader()
+                                .clearMemoryCache(); // 回收掉所有的bitmap对象
+                bmp = null;
+            }
+        }
+        return bmp;
+    }
+
+    /**得到res文件夹下的uri*/
+    public static Uri getResourceUri(int resId,String packageName)
+    {
+        return Uri.parse("android.resource://"+packageName+"/"+resId);
     }
 }

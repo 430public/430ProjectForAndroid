@@ -7,6 +7,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -243,5 +244,58 @@ public class FileUtils {
             return null;
         }
         return fileList;
+    }
+    // 保存字节到文件
+    public static void saveBytesToSD(String filePath, byte[] data) {
+        if (data != null) {
+            FileOutputStream fos = null;
+            try {
+                File file = new File(filePath);
+                fos = new FileOutputStream(file);
+                fos.write(data);
+                fos.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+
+                try {
+                    if (fos != null) {
+                        fos.close();
+                        fos = null;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
+
+    // 从SD得到文字内容文件
+    public static byte[] getBytesFromSD(String filePath) {
+        FileInputStream fis = null;
+        byte[] buf = null;
+        try {
+            File file = new File(filePath);
+            if (file.exists() == true) {
+                fis = new FileInputStream(file);
+                buf = new byte[(int) file.length()];
+                fis.read(buf);
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fis != null)
+                    fis.close();
+            } catch (Exception e) {
+            }
+        }
+        return buf;
     }
 }
