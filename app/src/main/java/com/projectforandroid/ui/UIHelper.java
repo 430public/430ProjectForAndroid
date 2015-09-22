@@ -2,6 +2,7 @@ package com.projectforandroid.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.projectforandroid.R;
+import com.projectforandroid.ui.activity.IndexActivity;
 
 /**
  * Created by 大灯泡 on 2015/9/1.
@@ -196,4 +198,10 @@ public class UIHelper {
         return false;
     }
     //------------------------------------------启动Activity的方法请放到这里---------------------------------------------
+    public static void startToIndexActivity(Activity c){
+        Intent intent=new Intent(c, IndexActivity.class);
+        c.startActivity(intent);
+        c.finish();
+    }
+
 }
