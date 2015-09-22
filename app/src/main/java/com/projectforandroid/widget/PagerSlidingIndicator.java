@@ -322,7 +322,8 @@ public class PagerSlidingIndicator extends HorizontalScrollView {
         rectPaint.setColor(underBackgroundLineColor);
         rectPaint.setStyle(Paint.Style.STROKE);
         rectPaint.setStrokeWidth(underLineWidth);
-        canvas.drawRect(0,height - underlineHeight,width,height,rectPaint);
+        //canvas.drawRect(0,height - underlineHeight,width,height,rectPaint);
+        canvas.drawLine(0,height,width,height,rectPaint);
 
 
         // draw indicator line
