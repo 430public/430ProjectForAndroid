@@ -13,14 +13,14 @@ import java.io.IOException;
 /**
  * Created by 大灯泡 on 2015/9/20.
  * 硬盘缓存
- * 暂时预留为JSON，图片使用ImageLoader的缓存机制
+ * 暂时预留，图片使用ImageLoader的缓存机制
  */
 public class DiskCache {
 
     private static final String TAG = "DiskCache";
 
     private File cacheDir;  //缓存目录
-    private static final String cacheName = "Jsoncache";
+    private static final String cacheName = "cache";
 
     /**
      * 构造函数
