@@ -3,9 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-    <!-- 隐藏actionbar
-        <item name="windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>-->
+
         <!--ActionBar的颜色-->
         <item name="colorPrimary">@color/colorPrimary</item>
         <!-- 随主题而改变的颜色（如CheckBox的颜色）-->
@@ -14,9 +12,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <!--菜单栏字体颜色-->
         <item name="android:textColorPrimary">@android:color/darker_gray</item>
-        <!--statusbar颜色控制针对5.0以上-->
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+
+        <item name="android:statusBarColor">@color/colorPrimary</item>
 
     </style>
 
