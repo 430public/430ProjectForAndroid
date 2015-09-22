@@ -12,4 +12,9 @@
     <!--toolbar描述打开/关闭-->
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+
+    <!--title-->
+    <string name="frag_top">头条</string>
+    <string name="frag_entertain">娱乐</string>
+    <string name="frag_sport">体育</string>
 </resources>
