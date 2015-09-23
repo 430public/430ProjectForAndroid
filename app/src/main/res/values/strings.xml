@@ -12,4 +12,7 @@
     <!--toolbar描述打开/关闭-->
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+    <!--Settings界面-->
+    <string name="setting_size">"字号"</string>
+    <string name="size_big">"大"</string>
 </resources>
