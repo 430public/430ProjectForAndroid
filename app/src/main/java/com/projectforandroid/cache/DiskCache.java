@@ -122,10 +122,6 @@ public class DiskCache {
             SystemClock.sleep(20 * 1000);
             String subDir = DiskCache.getImageDiskCache() + File.separator;
             DiskCache.cleanFilter(subDir);
-
-            // DiskFileClean.cleanFilter(FileUtils.getVoiceCachePath());
-            // DiskFileClean.cleanFilter(FileUtils.getFileCachePath());
-            // //个人信息不清理
         }
     };
 
