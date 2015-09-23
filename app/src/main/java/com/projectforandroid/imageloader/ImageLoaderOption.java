@@ -19,10 +19,17 @@ public class ImageLoaderOption {
     private boolean cacheOnDisk = true;
     private ImageScaleType imageScaleType;
     private Config bitmapConfig=Config.RGB_565;
-    private FadeInBitmapDisplayer displayer=new FadeInBitmapDisplayer(300);
-    private RoundedBitmapDisplayer mRoundedBitmapDisplayer=new RoundedBitmapDisplayer(0);
+    private FadeInBitmapDisplayer displayer;
+    private RoundedBitmapDisplayer mRoundedBitmapDisplayer;
     public ImageLoaderOption() {
-
+        showImageOnLoading=R.drawable.default_pic;
+        showImageForEmptyUri=R.drawable.default_pic;
+        showImageOnFail=R.drawable.default_pic;
+        cacheOnDisk=true;
+        imageScaleType=ImageScaleType.EXACTLY_STRETCHED;
+        bitmapConfig=Config.RGB_565;
+        displayer=new FadeInBitmapDisplayer(300);
+        mRoundedBitmapDisplayer=new RoundedBitmapDisplayer(0);
     }
 
     public DisplayImageOptions getOptions() {
@@ -40,7 +47,7 @@ public class ImageLoaderOption {
     /** 设置图片在下载期间显示的图片 */
     public void setShowImageOnLoading(int showImageOnLoading) {
         this.showImageOnLoading =
-            (showImageOnLoading == 0 ? R.mipmap.ic_launcher : showImageOnLoading);
+            (showImageOnLoading == 0 ? R.drawable.default_pic : showImageOnLoading);
     }
 
     public int getShowImageForEmptyUri() {
@@ -50,7 +57,7 @@ public class ImageLoaderOption {
     /** 设置图片Uri为空或是错误的时候显示的图片 */
     public void setShowImageForEmptyUri(int showImageForEmptyUri) {
         this.showImageForEmptyUri =
-            (showImageForEmptyUri == 0 ? R.mipmap.ic_launcher : showImageForEmptyUri);
+            (showImageForEmptyUri == 0 ? R.drawable.default_pic : showImageForEmptyUri);
     }
 
     public int getShowImageOnFail() {
@@ -59,7 +66,7 @@ public class ImageLoaderOption {
 
     /** 设置图片加载/解码过程中错误时候显示的图片 */
     public void setShowImageOnFail(int showImageOnFail) {
-        this.showImageOnFail = (showImageOnFail == 0 ? R.mipmap.ic_launcher : showImageOnFail);
+        this.showImageOnFail = (showImageOnFail == 0 ? R.drawable.default_pic : showImageOnFail);
         ;
     }
 
@@ -117,8 +124,7 @@ public class ImageLoaderOption {
             .considerExifParams(true)  //是否考虑JPEG图像EXIF参数（旋转，翻转）
             .imageScaleType(imageScaleType)//设置图片以如何的编码方式显示
             .bitmapConfig(bitmapConfig)//设置图片的解码类型//
-            .displayer(mRoundedBitmapDisplayer)
-            .build();//构建完成
+            .displayer(mRoundedBitmapDisplayer).build();//构建完成
 
         return options;
     }

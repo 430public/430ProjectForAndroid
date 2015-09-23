@@ -41,7 +41,7 @@ public class GeneralImageView extends ImageView {
     //===========================加载图片==================================
     public void loadImage(String imageUrl) {
         this.imageUrl = imageUrl;
-        ImageLoaderCache.getInstance().loadImage(imageUrl, this);
+        ImageLoaderCache.getInstance().loadImage(imageUrl,this,mImageLoaderOption.build());
     }
     public void loadImageWithRound(String imageUrl,int roundPx){
         this.imageUrl=imageUrl;
