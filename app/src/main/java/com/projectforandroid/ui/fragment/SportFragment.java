@@ -11,11 +11,11 @@ import com.projectforandroid.R;
 /**
  * Created by 杰 on 2015/9/21.
  */
-public class FragmentSport extends Fragment{
+public class SportFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_sport,null);
+        return inflater.inflate(R.layout.fragment_sport,container,false);
     }
 }

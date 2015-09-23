@@ -1,6 +1,5 @@
 package com.projectforandroid.ui.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,25 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ExpandableListView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import com.projectforandroid.R;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.Inflater;
 
 /**
  * Created by 杰 on 2015/9/21.
  */
-public class TopLineFragment extends Fragment {
-
-
+public class TopLineFragment extends Fragment{
     //定义静态方法ViewHolder
     static class ViewHolder{
         public ImageView Header;
@@ -76,9 +65,9 @@ public class TopLineFragment extends Fragment {
                 ViewHolder holder;
                 if(convertView==null){
                     holder=new ViewHolder();
-                    convertView=inflater.inflate(R.layout.listview_toplineitem,null);
+                    convertView=inflater.inflate(R.layout.item_toplineitem,parent,false);
                     holder.Title=(TextView)convertView.findViewById(R.id.tv_title);
-                    holder.Header=(ImageView)convertView.findViewById(R.id.img);
+                    holder.Header=(ImageView)convertView.findViewById(R.id.item_avatar);
                     holder.Content=(TextView)convertView.findViewById(R.id.tv_content);
                     holder.img_jiantou=(ImageView)convertView.findViewById(R.id.imgbutton_jiantou);
                     convertView.setTag(holder);

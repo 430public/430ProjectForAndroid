@@ -14,15 +14,15 @@
         android:orientation="vertical"
         android:background="@color/color_f0f0f0"
         >
-        <it.neokree.materialtabs.MaterialTabHost
-            android:id="@+id/tabHost"
+        <com.projectforandroid.widget.PagerSlidingIndicator
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:accentColor="@color/color_00bcd4"
+            android:layout_height="@dimen/dp_48"
+            android:elevation="@dimen/dp_6"
             />
-
         <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
+            android:id="@+id/index_viewpager"
+            android:layout_marginTop="@dimen/dp_3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
