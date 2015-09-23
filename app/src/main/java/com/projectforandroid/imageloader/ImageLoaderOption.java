@@ -4,6 +4,7 @@ import android.graphics.Bitmap.Config;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.projectforandroid.R;
 
 /**
@@ -17,9 +18,9 @@ public class ImageLoaderOption {
     private int showImageOnFail;
     private boolean cacheOnDisk = true;
     private ImageScaleType imageScaleType;
-    private Config bitmapConfig;
-    private FadeInBitmapDisplayer displayer;
-
+    private Config bitmapConfig=Config.RGB_565;
+    private FadeInBitmapDisplayer displayer=new FadeInBitmapDisplayer(300);
+    private RoundedBitmapDisplayer mRoundedBitmapDisplayer=new RoundedBitmapDisplayer(0);
     public ImageLoaderOption() {
 
     }
@@ -103,14 +104,12 @@ public class ImageLoaderOption {
         return displayer;
     }
 
-    /** 是否图片加载好后渐入的动画时间 */
-    public void setDisplayer(FadeInBitmapDisplayer displayer) {
-        this.displayer = (displayer == null ? new FadeInBitmapDisplayer(300) : displayer);
+    public void setRound(int roundPx) {
+        this.mRoundedBitmapDisplayer = (mRoundedBitmapDisplayer == null ? mRoundedBitmapDisplayer : new RoundedBitmapDisplayer(roundPx));
     }
 
     public DisplayImageOptions build() {
-        options = new DisplayImageOptions.Builder().showImageOnLoading(
-            showImageOnLoading) //设置图片在下载期间显示的图片
+        options = new DisplayImageOptions.Builder().showImageOnLoading(showImageOnLoading) //设置图片在下载期间显示的图片
             .showImageForEmptyUri(showImageForEmptyUri)//设置图片Uri为空或是错误的时候显示的图片
             .showImageOnFail(showImageOnFail)  //设置图片加载/解码过程中错误时候显示的图片
             .cacheInMemory(true)//存入缓存
@@ -118,7 +117,7 @@ public class ImageLoaderOption {
             .considerExifParams(true)  //是否考虑JPEG图像EXIF参数（旋转，翻转）
             .imageScaleType(imageScaleType)//设置图片以如何的编码方式显示
             .bitmapConfig(bitmapConfig)//设置图片的解码类型//
-            .displayer(displayer)//是否图片加载好后渐入的动画时间
+            .displayer(mRoundedBitmapDisplayer)
             .build();//构建完成
 
         return options;
