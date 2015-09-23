@@ -23,17 +23,25 @@ public class ImageLoaderCache {
       String imageUri = "content://media/external/audio/albumart/13"; // from content provider
       String imageUri = "assets://image.png"; // from assets
       String imageUri = "drawable://" + R.drawable.image; // from drawables (only images, non-9patch)  */
-    //缓存地址
-    private static final File cacheDir =
-        StorageUtils.getOwnCacheDirectory(ProjectApplication.context, "430project/Cache/Bitmap");
+    private static volatile ImageLoaderCache instance;
     private static ImageLoader mLoader = ImageLoader.getInstance();
     private ImageLoaderConfiguration configuration;
 
-    private static ImageLoaderCache mLoaderCache = null;
+    //缓存地址
+    private static final File cacheDir =
+        StorageUtils.getOwnCacheDirectory(ProjectApplication.context, "430project/Cache/Bitmap");
 
+    //------------------------------------------Methods-----------------------------------------------
     public static ImageLoaderCache getInstance() {
-        if (mLoaderCache == null) mLoaderCache = new ImageLoaderCache();
-        return mLoaderCache;
+        if (instance == null) {
+            Class imageLoaderClass = ImageLoaderCache.class;
+            synchronized (imageLoaderClass) {
+                if (instance == null) {
+                    instance = new ImageLoaderCache();
+                }
+            }
+        }
+        return instance;
     }
 
     public ImageLoader getImageLoader() {
@@ -63,15 +71,15 @@ public class ImageLoaderCache {
     }
 
     //------------------------------------------加载图片方法-----------------------------------------------
-    public static void loadImage(String url, ImageView imageView, DisplayImageOptions options) {
+    public void loadImage(String url, ImageView imageView, DisplayImageOptions options) {
         mLoader.displayImage(url, imageView, options);
     }
 
-    public static void loadImage(String url, ImageView imageView) {
+    public void loadImage(String url, ImageView imageView) {
         mLoader.displayImage(url, imageView);
     }
 
-    public static void loadImage(String url, ImageView imageView, DisplayImageOptions options,
+    public void loadImage(String url, ImageView imageView, DisplayImageOptions options,
         ImageLoadingListener listener) {
         mLoader.displayImage(url, imageView, options, listener);
     }
