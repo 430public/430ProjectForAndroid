@@ -29,7 +29,7 @@ public class ImageLoaderCache {
 
     //缓存地址
     private static final File cacheDir =
-        StorageUtils.getOwnCacheDirectory(ProjectApplication.context, "430project/Cache/Bitmap");
+        StorageUtils.getOwnCacheDirectory(ProjectApplication.context, "430project/Cache/ImageCache");
 
     //------------------------------------------Methods-----------------------------------------------
     public static ImageLoaderCache getInstance() {
@@ -58,7 +58,7 @@ public class ImageLoaderCache {
             .memoryCache(new WeakMemoryCache()).threadPriority(Thread.NORM_PRIORITY)//优先级普通
             .diskCacheSize(30 * 1024 * 1024)//磁盘缓存大小30M
             .diskCacheFileNameGenerator(new Md5FileNameGenerator())//MD5保存文件名
-            .diskCacheFileCount(100)//最多100张图片
+            .diskCacheFileCount(120)//最多100张图片
             .writeDebugLogs()//写入日志
             .build();
         mLoader.init(configuration);
