@@ -3,7 +3,6 @@
     <color name="color_565656">#565656</color>
     <color name="color_black">#000000</color>
     <color name="color_a5a5a5">#a5a5a5</color>
-    <color name="color_66a5a5a5">#66a5a5a5</color>
     <color name="color_f0f0f0">#f0f0f0</color>
     <color name="color_00bcd4">#00bcd4</color>
     <color name="color_93cbd2">#93cbd2</color>
@@ -13,6 +12,8 @@
 
 
 
+    <color name="color_dcdcdc">#dcdcdc</color>
+    <color name="color_00acc1">#00acc1</color>
     <!--分割线-->
     <color name="line_color">#dcdcdc</color>
 
