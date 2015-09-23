@@ -17,7 +17,6 @@
     <string name="frag_top">头条</string>
     <string name="frag_entertain">娱乐</string>
     <string name="frag_sport">体育</string>
-    <!--Settings界面-->
-    <string name="setting_size">"字号"</string>
-    <string name="size_big">"大"</string>
+
+    <string name="loading">加载中...</string>
 </resources>
