@@ -58,16 +58,23 @@ public class IndexActivity extends BaseActivity implements ViewPager.OnPageChang
         vh.mTabStrip.setViewPager(vh.mViewPager);
         // 设置tab（必须放到setAdapter后面）
         vh.mTabStrip.setShouldExpand(true);
-        vh.mTabStrip.setDividerColor(ProjectApplication.getResColor(R.color.color_a5a5a5));
-        vh.mTabStrip.setUnderlineHeight((int) ProjectApplication.getResDimen(R.dimen.dp_5));
+        vh.mTabStrip.setDividerColor(ProjectApplication.getResColor(R.color.color_66a5a5a5));
+        vh.mTabStrip.setUnderlineHeight((int) ProjectApplication.getResDimen(R.dimen.dp_3));
         vh.mTabStrip.setUnderlineColor(ProjectApplication.getResColor(R.color.color_f0f0f0));
+        vh.mTabStrip.setDividerPadding(UIHelper.dip2px(this,ProjectApplication.getResDimen(R.dimen.dp_6)));
         vh.mTabStrip.setSelectedTextColor(ProjectApplication.getResColor(R.color.color_00bcd4));
         vh.mTabStrip.setIndicatorColor(ProjectApplication.getResColor(R.color.color_00bcd4));
-        vh.mTabStrip.setIndicatorHeight((int) ProjectApplication.getResDimen(R.dimen.dp_5));
+        vh.mTabStrip.setIndicatorHeight((int) ProjectApplication.getResDimen(R.dimen.dp_3));
         vh.mTabStrip.setTextColor(ProjectApplication.getResColor(R.color.color_a5a5a5));
         vh.mTabStrip.setTextSize(28);
         // 监听
         vh.mTabStrip.setOnPageChangeListener(this);
+
+
+
+
+
+
     }
 
     //------------------------------------------页面切换监听-----------------------------------------------

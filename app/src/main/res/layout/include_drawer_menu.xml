@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/my_drawer_menu"
+    android:clipToPadding="true"
     android:fitsSystemWindows="true"
     >
     <!-- 需要呈现的内容 -->
