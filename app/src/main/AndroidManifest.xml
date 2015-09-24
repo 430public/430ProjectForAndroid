@@ -28,12 +28,6 @@
         </activity>
         <activity android:name=".ui.activity.base.BaseActivity"/>
         <activity android:name=".ui.activity.IndexActivity"/>
-        <activity
-            android:name=".ui.activity.TestActivity"
-            android:label="@string/title_activity_test"
-            >
-
-        </activity>
     </application>
 
 </manifest>

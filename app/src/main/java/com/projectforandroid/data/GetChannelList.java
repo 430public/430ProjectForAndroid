@@ -3,11 +3,11 @@ package com.projectforandroid.data;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.projectforandroid.ProjectApplication;
+import com.projectforandroid.R;
 import com.projectforandroid.http.OnResponseListener;
 import com.projectforandroid.model.BaseResponse;
 import com.projectforandroid.model.Channel;
-import com.projectforandroid.model.NewsList;
-import com.projectforandroid.utils.viewutils.L;
 import com.show.api.ShowApiRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -33,7 +33,7 @@ public class GetChannelList {
 
     public void getChannelList() {
         if (mOnResponseListener == null) {
-            throw new IllegalStateException("还没有设置OnResponseListener！");
+            throw new IllegalStateException(ProjectApplication.getResString(R.string.respon_error));
         }
         mOnResponseListener.onStart();
         final AsyncHttpResponseHandler resHandler = new AsyncHttpResponseHandler() {
@@ -42,7 +42,7 @@ public class GetChannelList {
                 BaseResponse baseResponse = new BaseResponse();
                 baseResponse.setStatus(-1);
                 baseResponse.setErrorCode(statusCode);
-                baseResponse.setErrorMsg("发生了什么我也想不到的事情→_→");
+                baseResponse.setErrorMsg(ProjectApplication.getResString(R.string.respon_nothing_to_know));
                 mOnResponseListener.onFailure(baseResponse);
                 e.printStackTrace();
             }
@@ -65,7 +65,7 @@ public class GetChannelList {
                     if(list.isEmpty()) {
                         baseResponse.setStatus(-1);
                         baseResponse.setErrorCode(-2);
-                        baseResponse.setErrorMsg("网络正常，但是查无此内容");
+                        baseResponse.setErrorMsg(ProjectApplication.getResString(R.string.net_with_empty_content));
                         mOnResponseListener.onFailure(baseResponse);
                         return;
                     }
