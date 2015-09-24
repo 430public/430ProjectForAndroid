@@ -24,4 +24,7 @@ dependencies {
     compile 'com.android.support:design:22.2.0'
     compile files('libs/universal-image-loader-1.9.4.jar')
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile files('showapi_sdk_android.jar')
+    compile files('android-async-http-1.4.6.jar')
+    compile 'com.google.code.gson:gson:2.2.4'
 }

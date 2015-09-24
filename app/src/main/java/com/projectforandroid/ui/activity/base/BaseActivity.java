@@ -17,6 +17,7 @@ import com.projectforandroid.ui.UIHelper;
 import com.projectforandroid.utils.BitmapUtils;
 import com.projectforandroid.utils.stackutils.AppManager;
 import com.projectforandroid.widget.CircleImageView;
+import com.projectforandroid.widget.popup.PopupCamera;
 
 /**
  * Created by 大灯泡 on 2015/9/19.
@@ -71,6 +72,8 @@ public class BaseActivity extends AppCompatActivity
             menuBackground)) {
             setSupportActionBar(toolbar);
             mNavigationView.setNavigationItemSelectedListener(this);
+            avatar.setOnClickListener(this);
+            menuBackground.setOnClickListener(this);
             menuBackground.setImageDrawable(BitmapUtils.background(R.drawable.default_menu_bg));
 
             //动画
@@ -109,6 +112,13 @@ public class BaseActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.avatar:
+                PopupCamera popupCamera=new PopupCamera(this);
+                popupCamera.showPopupWindow();
+
+                break;
+        }
 
     }
 
