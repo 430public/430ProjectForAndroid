@@ -3,4 +3,20 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <!--抽屉菜单-->
+    <string name="personal_star">个人收藏</string>
+    <string name="personal_detail">个人资料</string>
+    <string name="about_help">帮助/关于</string>
+    <string name="setting">设置</string>
+
+    <!--toolbar描述打开/关闭-->
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+
+    <!--title-->
+    <string name="frag_top">头条</string>
+    <string name="frag_entertain">娱乐</string>
+    <string name="frag_sport">体育</string>
+
+    <string name="loading">加载中...</string>
 </resources>

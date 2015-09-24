@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_565656">#565656</color>
+    <color name="color_black">#000000</color>
+    <color name="color_a5a5a5">#a5a5a5</color>
+    <color name="color_f0f0f0">#f0f0f0</color>
+    <color name="color_00bcd4">#00bcd4</color>
+    <color name="color_93cbd2">#93cbd2</color>
+    <color name="color_01adc2">#01adc2</color>
+    <color name="color_dcdcdc">#dcdcdc</color>
+    <color name="color_f3437f">#f3437f</color>
+
+
+
+    <color name="color_dcdcdc">#dcdcdc</color>
+    <color name="color_00acc1">#00acc1</color>
+    <!--分割线-->
+    <color name="line_color">#dcdcdc</color>
+
+    <!--FAB-->
+    <color name="fab_red">#f3437f</color>
+
+    <!--themecolor-->
+    <color name="colorPrimary">#00bcd5</color>
+    <color name="colorAccent">#01adc2</color>
+    <color name="colorPrimaryDark">#0097ac</color>
+
+
+</resources>
