@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_72"
+    android:padding="@dimen/dp_8"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_avatar"
+            android:layout_centerVertical="true"
+            tools:src="@drawable/header"
+            android:layout_alignParentLeft="true"
+            />
+
+        <View
+            android:id="@+id/view_empty"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/item_avatar"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_0"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_16"
+            android:layout_above="@id/view_empty"
+            android:layout_toRightOf="@id/item_avatar"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:id="@+id/tv_title"
+            android:textColor="@color/color_black"
+            tools:text="Large Text"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_content"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:layout_below="@id/view_empty"
+            android:layout_toRightOf="@id/item_avatar"
+            android:textSize="@dimen/sp_13"
+            android:textColor="@color/color_a5a5a5"
+            tools:text="Large Text"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_jiantou"
+            android:layout_gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_16"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:id="@+id/imgbutton_jiantou"
+            />
+    </RelativeLayout>
+</RelativeLayout>

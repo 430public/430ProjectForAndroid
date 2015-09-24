@@ -69,6 +69,12 @@ public class IndexActivity extends BaseActivity implements ViewPager.OnPageChang
         vh.mTabStrip.setTextSize(28);
         // 监听
         vh.mTabStrip.setOnPageChangeListener(this);
+
+
+
+
+
+
     }
 
     //------------------------------------------页面切换监听-----------------------------------------------
