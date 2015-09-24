@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.projectforandroid.imageloader.ImageLoaderCache;
+import com.projectforandroid.ui.list.NewBeanTest;
 import java.util.List;
 
 /**
