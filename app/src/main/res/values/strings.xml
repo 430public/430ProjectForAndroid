@@ -25,4 +25,11 @@
     <string name="net_with_empty_content">网络正常，但是查无此内容</string>
     <string name="respon_give_id">给传个频道id或者名称吧..</string>
     <string name="respon_nothing_to_know">发生了什么我也想不到的事情→_→</string>
+
+    <!--basePopup-->
+    <string name="popup_base_title">这是标题哦</string>
+    <string name="popup_camera_title">请选择照片来源</string>
+    <string name="popup_choose_from_camera">拍照</string>
+    <string name="popup_choose_from_album">从图片库选择</string>
+    <string name="popup_cancel">取消</string>
 </resources>
