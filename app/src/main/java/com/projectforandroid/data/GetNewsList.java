@@ -2,12 +2,13 @@ package com.projectforandroid.data;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.projectforandroid.ProjectApplication;
+import com.projectforandroid.R;
 import com.projectforandroid.http.OnResponseListener;
 import com.projectforandroid.model.BaseResponse;
 import com.projectforandroid.model.NewsList;
 import com.show.api.ShowApiRequest;
 import java.io.UnsupportedEncodingException;
-import java.util.IllegalFormatCodePointException;
 import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +37,7 @@ public class GetNewsList {
      */
     public void getNewsList(String channelId, String channelName, int page) {
         if (mOnResponseListener == null) {
-            throw new IllegalStateException("还没有设置OnResponseListener！");
+            throw new IllegalStateException(ProjectApplication.getResString(R.string.respon_error));
         }
         mOnResponseListener.onStart();
         final AsyncHttpResponseHandler resHandler = new AsyncHttpResponseHandler() {
@@ -86,7 +87,7 @@ public class GetNewsList {
         request.setResponseHandler(resHandler)
                .addTextPara("page", page + "");
         if(channelId == null && channelName == null)
-            throw new IllegalStateException("给传个频道id或者名称吧..");
+            throw new IllegalStateException(ProjectApplication.getResString(R.string.respon_give_id));
         else if(channelId != null){
             request.addTextPara("channelId", channelId);
         } else {

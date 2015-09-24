@@ -19,4 +19,10 @@
     <string name="frag_sport">体育</string>
 
     <string name="loading">加载中...</string>
+
+    <!--请求方面的文字-->
+    <string name="respon_error">还没有设置OnResponseListener！</string>
+    <string name="net_with_empty_content">网络正常，但是查无此内容</string>
+    <string name="respon_give_id">给传个频道id或者名称吧..</string>
+    <string name="respon_nothing_to_know">发生了什么我也想不到的事情→_→</string>
 </resources>
