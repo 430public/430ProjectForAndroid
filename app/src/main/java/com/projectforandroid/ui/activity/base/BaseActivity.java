@@ -13,6 +13,8 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.projectforandroid.R;
+import com.projectforandroid.http.OnResponseListener;
+import com.projectforandroid.http.respon.BaseResponse;
 import com.projectforandroid.ui.UIHelper;
 import com.projectforandroid.utils.BitmapUtils;
 import com.projectforandroid.utils.stackutils.AppManager;
@@ -24,7 +26,7 @@ import com.projectforandroid.widget.popup.PopupCamera;
  * 基础依赖
  */
 public class BaseActivity extends AppCompatActivity
-    implements OnClickListener, OnNavigationItemSelectedListener {
+    implements OnClickListener, OnNavigationItemSelectedListener,OnResponseListener {
 
     protected DrawerLayout mDrawerMenu;//抽屉菜单
     protected NavigationView mNavigationView;//抽屉菜单下的选项
@@ -163,6 +165,29 @@ public class BaseActivity extends AppCompatActivity
 
     public void setOnDrawerClosedListener(onDrawerClosedListener onDrawerClosedListener) {
         mOnDrawerClosedListener = onDrawerClosedListener;
+    }
+
+
+
+
+    @Override
+    public void onSuccess(BaseResponse response) {
+
+    }
+
+    @Override
+    public void onFailure(BaseResponse response) {
+
+    }
+
+    @Override
+    public void onHttpStart() {
+
+    }
+
+    @Override
+    public void onHttpFinish() {
+
     }
 
     //------------------------------------------接口-----------------------------------------------

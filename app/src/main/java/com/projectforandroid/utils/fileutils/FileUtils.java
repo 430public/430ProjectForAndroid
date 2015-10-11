@@ -246,11 +246,11 @@ public class FileUtils {
         return fileList;
     }
     // 保存字节到文件
-    public static void saveBytesToSD(String filePath, byte[] data) {
+    public static void saveBytesToSD(String filePath,String fileName, byte[] data) {
         if (data != null) {
             FileOutputStream fos = null;
             try {
-                File file = new File(filePath);
+                File file = new File(filePath,fileName);
                 fos = new FileOutputStream(file);
                 fos.write(data);
                 fos.flush();
