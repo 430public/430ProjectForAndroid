@@ -28,6 +28,10 @@
         </activity>
         <activity android:name=".ui.activity.base.BaseActivity"/>
         <activity android:name=".ui.activity.IndexActivity"/>
+        <activity android:name=".ui.activity.TopLine"/>
+        <activity android:name=".ui.activity.CollectActivity"/>
+        <activity android:name=".ui.activity.PersonalActivity"/>
+        <activity android:name=".ui.activity.SettingActivity"/>
     </application>
 
 </manifest>

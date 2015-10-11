@@ -9,92 +9,57 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import com.projectforandroid.R;
 import com.projectforandroid.adapter.FragmentAdapter;
+import com.projectforandroid.data.GetNewsDetail;
+import com.projectforandroid.http.OnResponseListener;
+import com.projectforandroid.model.BaseResponse;
+import com.projectforandroid.model.NewsDetail;
 import com.projectforandroid.ui.activity.TopLine;
-import java.util.List;
+import java.util.ArrayList;
+import org.json.JSONObject;
 
 /**
- * Created by 杰 on 2015/9/21.
+ * Created by 杰 on 2015/9/24.
  */
-public class TopLineFragment extends Fragment{
-    //定义静态方法ViewHolder
-    static class ViewHolder{
-        public ImageView Header;
-        public TextView Title;
-        public TextView Content;
-        public ImageView img_jiantou;
-
-    }
-    public String[] itemtitle = new String[] {
-        "This is item1 title", "This is item2 title", "This is item3 title", "This is item4 title",
-        "This is item5 title", "This is item6 title", "This is item7 title"
-    };
-    public int[] header = new int[] {
-        R.drawable.header, R.drawable.header, R.drawable.header, R.drawable.header,
-        R.drawable.header, R.drawable.header, R.drawable.header
-    };
-    public  String[] content=new String[]{"This is item1 content", "This is item2 content", "This is item3 content", "This is item4 content",
-        "This is item5 content", "This is item6 content", "This is item7 content"};
-
+public class TopLineFragment extends Fragment {
+    ArrayList<NewsDetail> mylist=new ArrayList<NewsDetail>();
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_topline, null);
         ListView listView=(ListView)view.findViewById(R.id.topline_listview);
-       ///定义一个Baseadapter
-        BaseAdapter adapter=new BaseAdapter() {
-
+        GetNewsDetail mygetter=new GetNewsDetail();
+        mygetter.setOnResponseListener(new OnResponseListener() {
             @Override
-            public int getCount() {
-                return itemtitle.length;
+            public void onSuccess(BaseResponse response) {
+                NewsDetail detail = (NewsDetail) response.getData();
             }
 
             @Override
-            public Object getItem(int position) {
-                return position;
+            public void onFailure(BaseResponse response) {
+
             }
 
             @Override
-            public long getItemId(int position) {
-                return position;
-            }
+            public void onStart() {
 
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                ViewHolder holder;
-                if(convertView==null){
-                    holder=new ViewHolder();
-                    convertView=inflater.inflate(R.layout.item_toplineitem,parent,false);
-                    holder.Title=(TextView)convertView.findViewById(R.id.tv_title);
-                    holder.Header=(ImageView)convertView.findViewById(R.id.item_avatar);
-                    holder.Content=(TextView)convertView.findViewById(R.id.tv_content);
-                    holder.img_jiantou=(ImageView)convertView.findViewById(R.id.imgbutton_jiantou);
-                    convertView.setTag(holder);
-                } else {
-                    holder = (ViewHolder)convertView.getTag();
-                }
-                holder.Title.setText(itemtitle[position]);
-                holder.Header.setImageResource(header[position]);
-                holder.Content.setText(content[position]);
-                holder.img_jiantou.setImageResource(R.drawable.btn_jiantou);
-                return convertView;
             }
-        };
+        });
+        mygetter.getNewsDetail("http://www.leiphone.com/news/201509/eeCZwlkS5ICRyvv2.html");
+        FragmentAdapter adapter=new FragmentAdapter(getActivity(),mylist,listView);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),TopLine.class);
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), TopLine.class);
                 startActivity(intent);
             }
         });
+
         return view;
     }
 }

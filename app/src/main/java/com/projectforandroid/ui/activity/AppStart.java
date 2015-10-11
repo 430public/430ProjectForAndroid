@@ -1,5 +1,6 @@
 package com.projectforandroid.ui.activity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import com.projectforandroid.R;
 import com.projectforandroid.ui.UIHelper;
@@ -16,4 +17,5 @@ public class AppStart extends BaseActivity{
         setContentView(R.layout.activity_welcome);
         UIHelper.startToIndexActivity(this);
     }
+
 }

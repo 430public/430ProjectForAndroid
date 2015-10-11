@@ -14,7 +14,9 @@
         <item name="android:textColorPrimary">@android:color/darker_gray</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
 
+
     </style>
+
 
 
     <!--popup style-->

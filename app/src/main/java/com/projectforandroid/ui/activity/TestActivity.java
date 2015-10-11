@@ -2,6 +2,7 @@ package com.projectforandroid.ui.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.projectforandroid.model.Channel;
 import com.projectforandroid.model.NewsDetail;
 import com.projectforandroid.model.NewsDigest;
 import com.projectforandroid.model.NewsList;
+import com.projectforandroid.ui.UIHelper;
 import com.projectforandroid.utils.viewutils.L;
 import com.show.api.ShowApiRequest;
 import java.io.UnsupportedEncodingException;
@@ -34,7 +36,7 @@ public class TestActivity extends AppCompatActivity {
 
     private Button mBtn;
     private TextView mTv;
-
+    List<Channel> channel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,20 +46,42 @@ public class TestActivity extends AppCompatActivity {
         mTv = (TextView) findViewById(R.id.activity_test_tv);
 
 
+        GetChannelList list=new GetChannelList();
+        list.setOnResponseListener(new OnResponseListener() {
+            @Override
+            public void onSuccess(BaseResponse response) {
+                channel= (List<Channel>) response.getData();
+            }
+
+            @Override
+            public void onFailure(BaseResponse response) {
+
+            }
+
+            @Override
+            public void onStart() {
+
+            }
+        });
+
+        list.getChannelList();
+
+
         mBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                GetNewsDetail getNewsDetail = new GetNewsDetail();
+                GetNewsList getNewsDetail = new GetNewsList();
                 getNewsDetail.setOnResponseListener(new OnResponseListener() {
                     @Override
                     public void onSuccess(BaseResponse response) {
-                        NewsDetail detail = (NewsDetail) response.getData();
-                        L.i(detail.toString());
+                        List<NewsDigest> list = ((NewsList) response.getData()).getContentlist();
+
+                        Log.v("tst", list.get(0).toString());
                     }
 
                     @Override
                     public void onFailure(BaseResponse response) {
-
+                        UIHelper.ToastMessage(TestActivity.this, "error", 0);
                     }
 
                     @Override
@@ -65,7 +89,8 @@ public class TestActivity extends AppCompatActivity {
                         L.i("由我来获取新闻列表！");
                     }
                 });
-                getNewsDetail.getNewsDetail("http://www.leiphone.com/news/201509/eeCZwlkS5ICRyvv2.html");
+                if (channel!=null)
+                getNewsDetail.getNewsList(channel.get(5).getChannelId(),channel.get(5).getName(),1);
             }
         });
     }

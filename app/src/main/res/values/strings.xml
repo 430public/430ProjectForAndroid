@@ -12,6 +12,7 @@
     <!--toolbar描述打开/关闭-->
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+    <string name="personal">个人设置</string>
 
     <!--title-->
     <string name="frag_top">头条</string>
@@ -32,4 +33,8 @@
     <string name="popup_choose_from_camera">拍照</string>
     <string name="popup_choose_from_album">从图片库选择</string>
     <string name="popup_cancel">取消</string>
+    <!--personaldetial-->
+    <string name="username_waring">不能超出10个字哦</string>
+    <!--Settings-->
+    <string name="setting_nophotomode">无图浏览</string>
 </resources>

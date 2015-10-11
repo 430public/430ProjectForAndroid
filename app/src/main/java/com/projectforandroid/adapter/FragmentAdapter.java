@@ -7,25 +7,17 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.projectforandroid.R;
+import com.projectforandroid.data.GetNewsDetail;
+import com.projectforandroid.http.OnResponseListener;
+import com.projectforandroid.model.NewsDetail;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by 杰 on 2015/9/24.
  */
 public class FragmentAdapter extends ListBaseAdapter {
-    /*//------------------------------------------定义内容（只是Example)-----------------------------------------------
-    public String[] itemtitle = new String[] {
-        "This is item1 title", "This is item2 title", "This is item3 title", "This is item4 title",
-        "This is item5 title", "This is item6 title", "This is item7 title"
-    };
-    public int[] header = new int[] {
-        R.drawable.header, R.drawable.header, R.drawable.header, R.drawable.header,
-        R.drawable.header, R.drawable.header, R.drawable.header
-    };
-    public  String[] content=new String[]{"This is item1 content", "This is item2 content", "This is item3 content", "This is item4 content",
-        "This is item5 content", "This is item6 content", "This is item7 content"};
-
-    //------------------------------------------上面是个例子-----------------------------------------------*/
+    ArrayList<NewsDetail> list=new ArrayList<NewsDetail>(){};
     //定义静态方法ViewHolder
     static class ViewHolder {
         public ImageView Header;
@@ -33,6 +25,7 @@ public class FragmentAdapter extends ListBaseAdapter {
         public TextView Content;
         public ImageView img_jiantou;
     }
+
     public FragmentAdapter(Context context, List list, ListView listView) {
         super(context, list, listView);
     }
@@ -51,9 +44,9 @@ public class FragmentAdapter extends ListBaseAdapter {
         } else {
             holder = (ViewHolder)convertView.getTag();
         }
-        //holder.Title.setText(mTList.get(position));
-        //holder.Header.setImageResource(header[position]);
-        //holder.Content.setText(content[position]);
+        holder.Title.setText(list.get(position).getTitle());
+       // holder.Header.setImageResource(list.get(position).getImageUrls()[position]);
+        holder.Content.setText(list.get(position).getNeirong());
         holder.img_jiantou.setImageResource(R.drawable.btn_jiantou);
         return convertView;
     }

@@ -116,7 +116,6 @@ public class BaseActivity extends AppCompatActivity
             case R.id.avatar:
                 PopupCamera popupCamera=new PopupCamera(this);
                 popupCamera.showPopupWindow();
-
                 break;
         }
 
@@ -129,13 +128,15 @@ public class BaseActivity extends AppCompatActivity
                 // TODO: 2015/9/19 跳到个人收藏
                 menuItem.setChecked(false);
                 mDrawerMenu.closeDrawers();
-                UIHelper.ToastMessage(getApplicationContext(), (String) menuItem.getTitle(), 0);
+                //UIHelper.ToastMessage(getApplicationContext(), (String) menuItem.getTitle(), 0);
+                UIHelper.startToCollectActivity(this);
                 break;
             case R.id.menu_personal_detail:
                 // TODO: 2015/9/19 跳到个人资料
                 menuItem.setChecked(false);
                 mDrawerMenu.closeDrawers();
-                UIHelper.ToastMessage(getApplicationContext(), (String) menuItem.getTitle(), 0);
+                UIHelper.startToPersonalActivity(this);
+                //UIHelper.ToastMessage(getApplicationContext(), (String) menuItem.getTitle(), 0);
                 break;
             case R.id.menu_about:
                 // TODO: 2015/9/19 跳到关于
@@ -147,7 +148,8 @@ public class BaseActivity extends AppCompatActivity
                 // TODO: 2015/9/19 跳到设置
                 menuItem.setChecked(false);
                 mDrawerMenu.closeDrawers();
-                UIHelper.ToastMessage(getApplicationContext(), (String) menuItem.getTitle(), 0);
+                UIHelper.startToSettingActivity(this);
+                //UIHelper.ToastMessage(getApplicationContext(), (String) menuItem.getTitle(), 0);
                 break;
         }
         return true;
