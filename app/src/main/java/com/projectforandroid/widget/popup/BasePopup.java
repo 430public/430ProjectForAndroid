@@ -50,6 +50,28 @@ public abstract class BasePopup extends PopupWindow implements OnClickListener{
         setTitleText();
     }
 
+    /**指定宽高的popup*/
+    public BasePopup(Activity activity,int width,int height) {
+        this.mActivity = activity;
+        contentView = getView();
+        contentView.setFocusableInTouchMode(true);
+
+        cancelButton=getCancelButton();
+        completeButton=getCompleteButton();
+        if (cancelButton!=null)
+            cancelButton.setOnClickListener(this);
+        if (completeButton!=null)
+            completeButton.setOnClickListener(this);
+        mPopupWindow =
+            new PopupWindow(contentView, width,height);
+
+        mPopupWindow.setBackgroundDrawable(new ColorDrawable());
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setAnimationStyle(0);
+        setTitleText();
+    }
+
     public void showPopupWindow() {
         try {
             mPopupWindow.showAtLocation(mActivity.findViewById(android.R.id.content),

@@ -1,7 +1,10 @@
 package com.projectforandroid.ui.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import com.projectforandroid.R;
+import com.projectforandroid.http.request.InitRequest;
+import com.projectforandroid.http.respon.BaseResponse;
 import com.projectforandroid.ui.UIHelper;
 import com.projectforandroid.ui.activity.base.BaseActivity;
 
@@ -14,6 +17,15 @@ public class AppStart extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        InitRequest request=new InitRequest(this);
+        request.setOnResponseListener(this);
+        request.execute();
         UIHelper.startToIndexActivity(this);
+    }
+
+    @Override
+    public void onSuccess(BaseResponse response) {
+        super.onSuccess(response);
     }
 }

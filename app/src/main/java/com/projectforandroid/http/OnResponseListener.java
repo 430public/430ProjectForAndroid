@@ -1,16 +1,17 @@
 package com.projectforandroid.http;
 
-import com.projectforandroid.model.BaseResponse;
+import com.projectforandroid.http.respon.BaseResponse;
 
 /**
  * Created by exkulo on 9/23/2015.
  */
 public interface OnResponseListener {
 
-    public void onSuccess(BaseResponse response);
+    void onSuccess(BaseResponse response);
 
-    public void onFailure(BaseResponse response);
+    void onFailure(BaseResponse response);
 
-    public void onStart();
+    void onHttpStart();
 
+    void onHttpFinish();
 }

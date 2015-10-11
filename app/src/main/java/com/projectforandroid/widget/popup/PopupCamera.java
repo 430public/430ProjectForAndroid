@@ -29,7 +29,7 @@ public class PopupCamera extends BasePopup {
 
     @Override
     public Animation setAnima() {
-        return getTransAnimaFromBottom();
+        return getScaleAnimation();
     }
 
     @Override
