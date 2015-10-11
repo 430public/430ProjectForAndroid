@@ -3,6 +3,7 @@ package com.projectforandroid;
 import android.app.Application;
 import android.content.Context;
 import com.projectforandroid.imageloader.ImageLoaderCache;
+import com.projectforandroid.utils.stringutils.StringUtils;
 
 /**
  * Created by 大灯泡 on 2015/9/19.
@@ -36,5 +37,9 @@ public class ProjectApplication extends Application {
     //------------------------------------------各种得到的方法-----------------------------------------------
     public static String getPackName() {
         return context.getPackageName();
+    }
+
+    public static String getHotNewsKey(){
+        return "b78df342ebae4b8893898d33b0c21050";
     }
 }

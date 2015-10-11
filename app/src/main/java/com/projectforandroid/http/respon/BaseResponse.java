@@ -1,4 +1,4 @@
-package com.projectforandroid.model;
+package com.projectforandroid.http.respon;
 
 /**
  * Created by exkulo on 9/23/2015.
