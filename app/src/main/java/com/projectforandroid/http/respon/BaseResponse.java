@@ -10,6 +10,15 @@ public class BaseResponse {
     private String errorMsg;
     private String responseBody;
     private Object data;
+    private int requestType;
+
+    public int getRequestType() {
+        return requestType;
+    }
+
+    public void setRequestType(int requestType) {
+        this.requestType = requestType;
+    }
 
     public Object getData() {
         return data;

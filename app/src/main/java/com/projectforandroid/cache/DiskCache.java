@@ -9,6 +9,7 @@ import com.projectforandroid.utils.fileutils.FileUtils;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -59,6 +60,27 @@ public class DiskCache {
         }
 
         return null;
+    }
+
+    /**根据key寻找json缓存*/
+    public JSONObject getJsonCache(String key) throws JSONException{
+        final String jsonCachePath=jsonCache.getAbsolutePath()+"/"+key;
+        final JSONObject[] object = { null };
+        Runnable runnable=new Runnable() {
+            @Override
+            public void run() {
+                byte[]  data =FileUtils.getBytesFromSD(jsonCachePath);
+                if (data!=null&&data.length>0){
+                    try {
+                        object[0] =new JSONObject(new String(data));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        runnable.run();
+        return object[0] ==null?null: object[0];
     }
 
     /**

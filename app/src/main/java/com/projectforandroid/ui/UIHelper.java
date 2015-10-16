@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.projectforandroid.R;
 import com.projectforandroid.ui.activity.CollectActivity;
+import com.projectforandroid.ui.activity.DetailActivity;
 import com.projectforandroid.ui.activity.IndexActivity;
 import com.projectforandroid.ui.activity.PersonalActivity;
 import com.projectforandroid.ui.activity.SettingActivity;
@@ -213,11 +214,13 @@ public class UIHelper {
         c.startActivity(intent);
         c.finish();
     }
+
     public static void startToPersonalActivity(Activity c) {
         Intent intent = new Intent(c, PersonalActivity.class);
         c.startActivity(intent);
         c.finish();
     }
+
     public static void startToSettingActivity(Activity c) {
         Intent intent = new Intent(c, SettingActivity.class);
         c.startActivity(intent);
