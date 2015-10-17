@@ -3,6 +3,10 @@ package com.projectforandroid;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.provider.Settings;
+import android.view.Window;
+import android.view.WindowManager;
 import com.projectforandroid.imageloader.ImageLoaderCache;
 import com.projectforandroid.utils.stringutils.StringUtils;
 
@@ -22,8 +26,10 @@ public class ProjectApplication extends Application {
         ProjectApplication.context = getApplicationContext();
         ProjectApplication.version = "1.0.0";
         ImageLoaderCache.getInstance().initImageLoader();
-        sharedPreferences=context.getSharedPreferences("key",MODE_PRIVATE);
+        sharedPreferences=context.getSharedPreferences("key", MODE_PRIVATE);
         editor=sharedPreferences.edit();
+
+
     }
 
     //------------------------------------------代码中得到各种xml属性-----------------------------------------------
