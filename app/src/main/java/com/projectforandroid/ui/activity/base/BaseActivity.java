@@ -13,17 +13,20 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.projectforandroid.R;
+import com.projectforandroid.http.OnResponseListener;
+import com.projectforandroid.http.respon.BaseResponse;
 import com.projectforandroid.ui.UIHelper;
 import com.projectforandroid.utils.BitmapUtils;
 import com.projectforandroid.utils.stackutils.AppManager;
 import com.projectforandroid.widget.CircleImageView;
+import com.projectforandroid.widget.popup.PopupCamera;
 
 /**
  * Created by 大灯泡 on 2015/9/19.
  * 基础依赖
  */
 public class BaseActivity extends AppCompatActivity
-    implements OnClickListener, OnNavigationItemSelectedListener {
+    implements OnClickListener, OnNavigationItemSelectedListener,OnResponseListener {
 
     protected DrawerLayout mDrawerMenu;//抽屉菜单
     protected NavigationView mNavigationView;//抽屉菜单下的选项
@@ -71,6 +74,8 @@ public class BaseActivity extends AppCompatActivity
             menuBackground)) {
             setSupportActionBar(toolbar);
             mNavigationView.setNavigationItemSelectedListener(this);
+            avatar.setOnClickListener(this);
+            menuBackground.setOnClickListener(this);
             menuBackground.setImageDrawable(BitmapUtils.background(R.drawable.default_menu_bg));
 
             //动画
@@ -109,6 +114,12 @@ public class BaseActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.avatar:
+                PopupCamera popupCamera=new PopupCamera(this);
+                popupCamera.showPopupWindow();
+                break;
+        }
 
     }
 
@@ -119,13 +130,15 @@ public class BaseActivity extends AppCompatActivity
                 // TODO: 2015/9/19 跳到个人收藏
                 menuItem.setChecked(false);
                 mDrawerMenu.closeDrawers();
-                UIHelper.ToastMessage(getApplicationContext(), (String) menuItem.getTitle(), 0);
+                //UIHelper.ToastMessage(getApplicationContext(), (String) menuItem.getTitle(), 0);
+                UIHelper.startToCollectActivity(this);
                 break;
             case R.id.menu_personal_detail:
                 // TODO: 2015/9/19 跳到个人资料
                 menuItem.setChecked(false);
                 mDrawerMenu.closeDrawers();
-                UIHelper.ToastMessage(getApplicationContext(), (String) menuItem.getTitle(), 0);
+                UIHelper.startToPersonalActivity(this);
+                //UIHelper.ToastMessage(getApplicationContext(), (String) menuItem.getTitle(), 0);
                 break;
             case R.id.menu_about:
                 // TODO: 2015/9/19 跳到关于
@@ -137,7 +150,8 @@ public class BaseActivity extends AppCompatActivity
                 // TODO: 2015/9/19 跳到设置
                 menuItem.setChecked(false);
                 mDrawerMenu.closeDrawers();
-                UIHelper.ToastMessage(getApplicationContext(), (String) menuItem.getTitle(), 0);
+                UIHelper.startToSettingActivity(this);
+                //UIHelper.ToastMessage(getApplicationContext(), (String) menuItem.getTitle(), 0);
                 break;
         }
         return true;
@@ -151,6 +165,29 @@ public class BaseActivity extends AppCompatActivity
 
     public void setOnDrawerClosedListener(onDrawerClosedListener onDrawerClosedListener) {
         mOnDrawerClosedListener = onDrawerClosedListener;
+    }
+
+
+
+
+    @Override
+    public void onSuccess(BaseResponse response) {
+
+    }
+
+    @Override
+    public void onFailure(BaseResponse response) {
+
+    }
+
+    @Override
+    public void onHttpStart() {
+
+    }
+
+    @Override
+    public void onHttpFinish() {
+
     }
 
     //------------------------------------------接口-----------------------------------------------

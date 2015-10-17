@@ -12,6 +12,7 @@
     <!--toolbar描述打开/关闭-->
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+    <string name="personal">个人设置</string>
 
     <!--title-->
     <string name="frag_top">头条</string>
@@ -19,4 +20,21 @@
     <string name="frag_sport">体育</string>
 
     <string name="loading">加载中...</string>
+
+    <!--请求方面的文字-->
+    <string name="respon_error">还没有设置OnResponseListener！</string>
+    <string name="net_with_empty_content">网络正常，但是查无此内容</string>
+    <string name="respon_give_id">给传个频道id或者名称吧..</string>
+    <string name="respon_nothing_to_know">发生了什么我也想不到的事情→_→</string>
+
+    <!--basePopup-->
+    <string name="popup_base_title">这是标题哦</string>
+    <string name="popup_camera_title">请选择照片来源</string>
+    <string name="popup_choose_from_camera">拍照</string>
+    <string name="popup_choose_from_album">从图片库选择</string>
+    <string name="popup_cancel">取消</string>
+    <!--personaldetial-->
+    <string name="username_waring">不能超出10个字哦</string>
+    <!--Settings-->
+    <string name="setting_nophotomode">无图浏览</string>
 </resources>

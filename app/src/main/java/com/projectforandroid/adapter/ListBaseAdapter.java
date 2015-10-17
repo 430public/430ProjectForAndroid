@@ -19,7 +19,6 @@ public abstract class ListBaseAdapter<T> extends BaseAdapter{
     protected Context mContext;
     protected LayoutInflater mInflater;
     protected ListView mListView;
-
     public ListBaseAdapter(Context context, List<T> list, ListView listView) {
         mContext = context;
         mTList = list;
