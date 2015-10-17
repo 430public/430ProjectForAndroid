@@ -1,6 +1,8 @@
 package com.projectforandroid.ui.activity.base;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.v4.widget.DrawerLayout;
@@ -10,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.projectforandroid.R;
@@ -26,7 +30,7 @@ import com.projectforandroid.widget.popup.PopupCamera;
  * 基础依赖
  */
 public class BaseActivity extends AppCompatActivity
-    implements OnClickListener, OnNavigationItemSelectedListener,OnResponseListener {
+    implements OnClickListener, OnNavigationItemSelectedListener, OnResponseListener {
 
     protected DrawerLayout mDrawerMenu;//抽屉菜单
     protected NavigationView mNavigationView;//抽屉菜单下的选项
@@ -46,7 +50,15 @@ public class BaseActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.
+                      addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
         // 添加Activity到堆栈
         AppManager.getAppManager().addActivity(this);
     }
@@ -81,18 +93,21 @@ public class BaseActivity extends AppCompatActivity
             //动画
             mActionBarDrawerToggle =
                 new ActionBarDrawerToggle(this, mDrawerMenu, toolbar, R.string.drawer_open,
-                    R.string.drawer_close){
+                    R.string.drawer_close) {
                     @Override
                     public void onDrawerOpened(View drawerView) {
                         super.onDrawerOpened(drawerView);
-                        if (mOnDrawerOpenedListener!=null)
+                        if (mOnDrawerOpenedListener != null) {
                             mOnDrawerOpenedListener.onDrawerOpened(drawerView);
+                        }
                     }
+
                     @Override
                     public void onDrawerClosed(View drawerView) {
                         super.onDrawerClosed(drawerView);
-                        if (mOnDrawerClosedListener!=null)
+                        if (mOnDrawerClosedListener != null) {
                             mOnDrawerClosedListener.onDrawerClosed(drawerView);
+                        }
                     }
                 };
             mActionBarDrawerToggle.syncState();
@@ -114,13 +129,12 @@ public class BaseActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.avatar:
-                PopupCamera popupCamera=new PopupCamera(this);
+                PopupCamera popupCamera = new PopupCamera(this);
                 popupCamera.showPopupWindow();
                 break;
         }
-
     }
 
     @Override
@@ -167,9 +181,6 @@ public class BaseActivity extends AppCompatActivity
         mOnDrawerClosedListener = onDrawerClosedListener;
     }
 
-
-
-
     @Override
     public void onSuccess(BaseResponse response) {
 
@@ -191,14 +202,11 @@ public class BaseActivity extends AppCompatActivity
     }
 
     //------------------------------------------接口-----------------------------------------------
-    public interface onDrawerOpenedListener{
+    public interface onDrawerOpenedListener {
         void onDrawerOpened(View drawerView);
     }
 
-    public interface onDrawerClosedListener{
+    public interface onDrawerClosedListener {
         void onDrawerClosed(View drawerView);
     }
-
-
-
 }
