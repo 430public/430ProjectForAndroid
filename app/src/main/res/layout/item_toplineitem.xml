@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_72"
+    android:layout_height="@dimen/dp_96"
     android:padding="@dimen/dp_8"
     >
 
@@ -13,52 +13,63 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/item_avatar"
-            android:layout_centerVertical="true"
-            tools:src="@drawable/header"
-            android:layout_alignParentLeft="true"
-            />
-
-        <View
-            android:id="@+id/view_empty"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/item_avatar"
-            android:layout_width="@dimen/dp_0"
-            android:layout_height="@dimen/dp_0"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_16"
-            android:layout_above="@id/view_empty"
-            android:layout_toRightOf="@id/item_avatar"
-            android:layout_marginLeft="@dimen/dp_8"
-            android:id="@+id/tv_title"
-            android:textColor="@color/color_black"
-            tools:text="Large Text"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_content"
-            android:layout_marginLeft="@dimen/dp_8"
-            android:layout_below="@id/view_empty"
-            android:layout_toRightOf="@id/item_avatar"
-            android:textSize="@dimen/sp_13"
-            android:textColor="@color/color_a5a5a5"
-            tools:text="Large Text"
-            />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_jiantou"
-            android:layout_gravity="center_vertical"
+            android:src="@drawable/btn_jiantou"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/dp_16"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/dp_8"
+            android:layout_alignTop="@+id/item_avatar"
+            android:layout_alignBottom="@+id/item_avatar"
             android:id="@+id/imgbutton_jiantou"
             />
+        <com.projectforandroid.widget.GeneralImageView
+            android:layout_width="@dimen/dp_48"
+            android:layout_height="@dimen/dp_48"
+            android:id="@+id/item_avatar"
+            tools:src="@drawable/header"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dp_8"
+            />
+        <RelativeLayout
+            android:id="@+id/text_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/imgbutton_jiantou"
+            android:layout_toRightOf="@id/item_avatar"
+            >
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_16"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:id="@+id/tv_title"
+                android:textColor="@color/color_black"
+                android:text="Large Text"
+                android:layout_above="@+id/empty"
+                />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerVertical="true"
+                android:id="@+id/empty"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_content"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:textSize="@dimen/sp_13"
+                android:textColor="@color/color_a5a5a5"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:text="Large Text"
+                android:layout_below="@+id/empty"
+                android:layout_alignTop="@+id/empty"
+                />
+        </RelativeLayout>
+
+
     </RelativeLayout>
 </RelativeLayout>
