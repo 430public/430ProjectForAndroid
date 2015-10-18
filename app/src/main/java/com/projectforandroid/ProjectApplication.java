@@ -3,7 +3,9 @@ package com.projectforandroid;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import com.projectforandroid.cache.DiskCache;
 import com.projectforandroid.imageloader.ImageLoaderCache;
+import com.projectforandroid.utils.camerautils.CameraUtils;
 import com.projectforandroid.utils.fileutils.FileUtils;
 import com.projectforandroid.utils.stringutils.StringUtils;
 import java.io.File;
@@ -27,6 +29,8 @@ public class ProjectApplication extends Application {
         sharedPreferences = context.getSharedPreferences("key", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         FileUtils.createFolder(getRootPath(), "images");
+        CameraUtils.cleanImgs();
+        DiskCache.cleanOverCache();
     }
 
     //------------------------------------------代码中得到各种xml属性-----------------------------------------------

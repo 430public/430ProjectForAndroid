@@ -3,6 +3,7 @@ package com.projectforandroid.ui.activity.base;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
@@ -14,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.projectforandroid.ProjectApplication;
@@ -28,6 +30,7 @@ import com.projectforandroid.utils.camerautils.CameraUtils;
 import com.projectforandroid.utils.stackutils.AppManager;
 import com.projectforandroid.widget.CircleImageView;
 import com.projectforandroid.widget.GeneralImageView;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 /**
  * Created by 大灯泡 on 2015/9/19.
@@ -56,9 +59,20 @@ public class BaseActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         // 添加Activity到堆栈
         AppManager.getAppManager().addActivity(this);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            SystemBarTintManager tintManager= new SystemBarTintManager(this);
+            tintManager.setStatusBarTintColor(getResources().getColor(R.color.colorPrimary));
+            tintManager.setStatusBarTintEnabled(true);
+        }
     }
 
     @Override
@@ -148,30 +162,27 @@ public class BaseActivity extends AppCompatActivity
         switch (menuItem.getItemId()) {
             case R.id.menu_personal_star:
                 // TODO: 2015/9/19 跳到个人收藏
-                menuItem.setChecked(false);
+                menuItem.setCheckable(false);
                 mDrawerMenu.closeDrawers();
-                //UIHelper.ToastMessage(getApplicationContext(), (String) menuItem.getTitle(), 0);
                 UIHelper.startToCollectActivity(this);
                 break;
             case R.id.menu_personal_detail:
                 // TODO: 2015/9/19 跳到个人资料
-                menuItem.setChecked(false);
+                menuItem.setCheckable(false);
                 mDrawerMenu.closeDrawers();
                 UIHelper.startToPersonalActivity(this);
-                //UIHelper.ToastMessage(getApplicationContext(), (String) menuItem.getTitle(), 0);
                 break;
             case R.id.menu_about:
                 // TODO: 2015/9/19 跳到关于
-                menuItem.setChecked(false);
+                menuItem.setCheckable(false);
                 mDrawerMenu.closeDrawers();
                 UIHelper.ToastMessage(getApplicationContext(), (String) menuItem.getTitle(), 0);
                 break;
             case R.id.menu_setting:
                 // TODO: 2015/9/19 跳到设置
-                menuItem.setChecked(false);
+                menuItem.setCheckable(false);
                 mDrawerMenu.closeDrawers();
                 UIHelper.startToSettingActivity(this);
-                //UIHelper.ToastMessage(getApplicationContext(), (String) menuItem.getTitle(), 0);
                 break;
         }
         return true;
@@ -201,7 +212,6 @@ public class BaseActivity extends AppCompatActivity
             //获得实际剪裁的区域的bitmap图形
             Bitmap pic = extras.getParcelable("data");
             //设置图片
-
             switch (type) {
                 case CLICK_AVATAR:
                     DataUtils.setSharedPreferenceData(ProjectApplication.editor, "avatar",
