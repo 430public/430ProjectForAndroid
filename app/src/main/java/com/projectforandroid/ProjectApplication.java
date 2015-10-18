@@ -3,12 +3,10 @@ package com.projectforandroid;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
-import android.provider.Settings;
-import android.view.Window;
-import android.view.WindowManager;
 import com.projectforandroid.imageloader.ImageLoaderCache;
+import com.projectforandroid.utils.fileutils.FileUtils;
 import com.projectforandroid.utils.stringutils.StringUtils;
+import java.io.File;
 
 /**
  * Created by 大灯泡 on 2015/9/19.
@@ -26,10 +24,9 @@ public class ProjectApplication extends Application {
         ProjectApplication.context = getApplicationContext();
         ProjectApplication.version = "1.0.0";
         ImageLoaderCache.getInstance().initImageLoader();
-        sharedPreferences=context.getSharedPreferences("key", MODE_PRIVATE);
-        editor=sharedPreferences.edit();
-
-
+        sharedPreferences = context.getSharedPreferences("key", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        FileUtils.createFolder(getRootPath(), "images");
     }
 
     //------------------------------------------代码中得到各种xml属性-----------------------------------------------
@@ -48,6 +45,14 @@ public class ProjectApplication extends Application {
     //------------------------------------------各种得到的方法-----------------------------------------------
     public static String getPackName() {
         return context.getPackageName();
+    }
+
+    public static String getRootPath() {
+        if (FileUtils.isSDexist()) {
+            return FileUtils.getSDCardPath() + "430project";
+        } else {
+            return "/data/data/" + getPackName();
+        }
     }
 
     public static String getHotNewsKey() {
@@ -72,5 +77,9 @@ public class ProjectApplication extends Application {
 
     public static String getSportNewsBaseUrl() {
         return "https://route.showapi.com/196-1";
+    }
+
+    public static String getPhotoImgPaht() {
+        return FileUtils.getSDCardPath() + "430project" + File.separator + "images";
     }
 }

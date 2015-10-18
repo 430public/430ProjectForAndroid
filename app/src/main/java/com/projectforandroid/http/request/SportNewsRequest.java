@@ -67,6 +67,7 @@ public class SportNewsRequest extends BaseHttpRequest {
                 }
                 sbean.setSportNewsBeans(slist);
                 response.setData(sbean);
+                mResponse.setData(sbean);
             }
         }
     }

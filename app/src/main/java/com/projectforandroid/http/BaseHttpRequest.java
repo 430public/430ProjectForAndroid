@@ -25,11 +25,11 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
     private static AsyncHttpClient client = new AsyncHttpClient();
     public Context mContext;
     private OnResponseListener mOnResponseListener;
-    public static  BaseResponse mBaseResponse;
+    public BaseResponse mBaseResponse;
     private Object data;
     public static DiskCache mDiskCache;
     private int requestType;
-    private static MemoryCache memoryCache;
+    public static MemoryCache memoryCache;
 
     public BaseHttpRequest(Context context) {
         mContext = context;
@@ -43,7 +43,6 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
         mDiskCache = new DiskCache(mContext);
         memoryCache=MemoryCache.getInstance();
         mBaseResponse=new BaseResponse();
-
     }
 
     //------------------------------------------抽象方法-----------------------------------------------
@@ -89,7 +88,7 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
                     if (mOnResponseListener != null) {
                         mBaseResponse.setStatus(statusCode);
                         mBaseResponse.setRequestType(requestType);
-                        memoryCache.putJsonToCache(getKey(),response);
+                        memoryCache.putJsonToCache(MD5Tools.hashKey(getKey()), response);
                         mDiskCache.putJson(MD5Tools.hashKey(getKey()), response);
                         DataUtils.setSharedPreferenceData(ProjectApplication.editor,
                             MD5Tools.hashKey(getKey()),  MD5Tools.hashKey(getKey()));
