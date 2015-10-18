@@ -8,7 +8,7 @@
     <com.projectforandroid.widget.GeneralImageView
         android:id="@+id/menu_bg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/dp_160"
         tools:src="@drawable/default_menu_bg"
         android:scaleType="centerCrop"
         />

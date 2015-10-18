@@ -26,7 +26,6 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
     public Context mContext;
     private OnResponseListener mOnResponseListener;
     public BaseResponse mBaseResponse;
-    public static BaseResponse mResponse;
     private Object data;
     public static DiskCache mDiskCache;
     private int requestType;
@@ -36,14 +35,14 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
         mContext = context;
         mDiskCache = new DiskCache(context);
         client.setTimeout(10000);
-        mResponse=new BaseResponse();
         memoryCache=MemoryCache.getInstance();
+        mBaseResponse=new BaseResponse();
     }
 
     public BaseHttpRequest() {
         mDiskCache = new DiskCache(mContext);
-        mResponse=new BaseResponse();
         memoryCache=MemoryCache.getInstance();
+        mBaseResponse=new BaseResponse();
     }
 
     //------------------------------------------抽象方法-----------------------------------------------
@@ -87,7 +86,6 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     if (mOnResponseListener != null) {
-                        mBaseResponse=new BaseResponse();
                         mBaseResponse.setStatus(statusCode);
                         mBaseResponse.setRequestType(requestType);
                         memoryCache.putJsonToCache(MD5Tools.hashKey(getKey()), response);
@@ -110,7 +108,6 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable,
                     JSONObject errorResponse) {
                     if (mOnResponseListener != null) {
-                        mBaseResponse=new BaseResponse();
                         mBaseResponse.setRequestType(requestType);
                         mBaseResponse.setStatus(statusCode);
                         try {
