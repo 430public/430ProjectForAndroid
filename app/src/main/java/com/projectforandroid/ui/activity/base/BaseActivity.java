@@ -1,6 +1,10 @@
 package com.projectforandroid.ui.activity.base;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.v4.widget.DrawerLayout;
@@ -12,21 +16,27 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.projectforandroid.ProjectApplication;
 import com.projectforandroid.R;
 import com.projectforandroid.http.OnResponseListener;
 import com.projectforandroid.http.respon.BaseResponse;
+import com.projectforandroid.imageloader.ImageLoaderCache;
 import com.projectforandroid.ui.UIHelper;
 import com.projectforandroid.utils.BitmapUtils;
+import com.projectforandroid.utils.DataUtils;
+import com.projectforandroid.utils.camerautils.CameraUtils;
 import com.projectforandroid.utils.stackutils.AppManager;
 import com.projectforandroid.widget.CircleImageView;
-import com.projectforandroid.widget.popup.PopupCamera;
+import com.projectforandroid.widget.GeneralImageView;
 
 /**
  * Created by 大灯泡 on 2015/9/19.
  * 基础依赖
  */
 public class BaseActivity extends AppCompatActivity
-    implements OnClickListener, OnNavigationItemSelectedListener,OnResponseListener {
+    implements OnClickListener, OnNavigationItemSelectedListener, OnResponseListener {
+    private static final int CLICK_BG = 23;//点击背景
+    private static final int CLICK_AVATAR = 233;//点击头像
 
     protected DrawerLayout mDrawerMenu;//抽屉菜单
     protected NavigationView mNavigationView;//抽屉菜单下的选项
@@ -34,12 +44,12 @@ public class BaseActivity extends AppCompatActivity
     protected TextView nick;//昵称
     protected TextView mail;//邮箱
     protected CircleImageView avatar;//头像
-    protected ImageView menuBackground;//背景
+    protected GeneralImageView menuBackground;//背景
     private onDrawerOpenedListener mOnDrawerOpenedListener;
     private onDrawerClosedListener mOnDrawerClosedListener;
 
     private ActionBarDrawerToggle mActionBarDrawerToggle;//toolbar动画
-
+    private int type;
     protected Toolbar toolbar;
 
     //------------------------------------------生命期-----------------------------------------------
@@ -67,7 +77,7 @@ public class BaseActivity extends AppCompatActivity
         nick = (TextView) findViewById(R.id.nick);
         mail = (TextView) findViewById(R.id.mail);
         avatar = (CircleImageView) findViewById(R.id.avatar);
-        menuBackground = (ImageView) findViewById(R.id.menu_bg);
+        menuBackground = (GeneralImageView) findViewById(R.id.menu_bg);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if (!UIHelper.isViewNull(toolbar, mDrawerMenu, mNavigationView, nick, mail, avatar,
@@ -76,23 +86,30 @@ public class BaseActivity extends AppCompatActivity
             mNavigationView.setNavigationItemSelectedListener(this);
             avatar.setOnClickListener(this);
             menuBackground.setOnClickListener(this);
-            menuBackground.setImageDrawable(BitmapUtils.background(R.drawable.default_menu_bg));
-
+            menuBackground.loadImage(
+                (String) DataUtils.getSharedPreferenceData(ProjectApplication.sharedPreferences,
+                    "background", "assets://default_menu_bg.png"));
+            avatar.loadImage(
+                (String) DataUtils.getSharedPreferenceData(ProjectApplication.sharedPreferences,
+                    "avatar", "assets://default_avatar.png"));
             //动画
             mActionBarDrawerToggle =
                 new ActionBarDrawerToggle(this, mDrawerMenu, toolbar, R.string.drawer_open,
-                    R.string.drawer_close){
+                    R.string.drawer_close) {
                     @Override
                     public void onDrawerOpened(View drawerView) {
                         super.onDrawerOpened(drawerView);
-                        if (mOnDrawerOpenedListener!=null)
+                        if (mOnDrawerOpenedListener != null) {
                             mOnDrawerOpenedListener.onDrawerOpened(drawerView);
+                        }
                     }
+
                     @Override
                     public void onDrawerClosed(View drawerView) {
                         super.onDrawerClosed(drawerView);
-                        if (mOnDrawerClosedListener!=null)
+                        if (mOnDrawerClosedListener != null) {
                             mOnDrawerClosedListener.onDrawerClosed(drawerView);
+                        }
                     }
                 };
             mActionBarDrawerToggle.syncState();
@@ -114,13 +131,16 @@ public class BaseActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.avatar:
-                PopupCamera popupCamera=new PopupCamera(this);
-                popupCamera.showPopupWindow();
+                type = CLICK_AVATAR;
+                UIHelper.startPhotoSelectActivity(this);
+                break;
+            case R.id.menu_bg:
+                type = CLICK_BG;
+                UIHelper.startPhotoSelectActivity(this);
                 break;
         }
-
     }
 
     @Override
@@ -157,6 +177,47 @@ public class BaseActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //照片回调
+        if (requestCode == CameraUtils.PHOTO_FROM_CAMERA
+            || resultCode == CameraUtils.PHOTO_FROM_CAMERA
+            || requestCode == CameraUtils.PHOTO_FROM_ALBUM
+            || resultCode == CameraUtils.PHOTO_FROM_ALBUM) {
+            Uri picUrl;
+            if (data != null) {
+                picUrl = data.getData();
+            } else {
+                picUrl = CameraUtils.photoUri;
+            }
+            if (picUrl != null) {
+                CameraUtils.cropImg(this, picUrl);
+            }
+        } else if (requestCode == CameraUtils.CROP_PHOTO) {
+            //获得返回的数据
+            Bundle extras = data.getExtras();
+            //获得实际剪裁的区域的bitmap图形
+            Bitmap pic = extras.getParcelable("data");
+            //设置图片
+
+            switch (type) {
+                case CLICK_AVATAR:
+                    DataUtils.setSharedPreferenceData(ProjectApplication.editor, "avatar",
+                        "file://" + CameraUtils.getSavePhotoPath());
+                    avatar.setImageBitmap(pic);
+                    break;
+                case CLICK_BG:
+                    DataUtils.setSharedPreferenceData(ProjectApplication.editor, "background",
+                        "file://" + CameraUtils.getSavePhotoPath());
+                    menuBackground.setImageBitmap(pic);
+                    break;
+            }
+        }
+        //===========================上面是回调==================================
+    }
+
     //------------------------------------------Setter--------------------------------------------
 
     public void setOnDrawerOpenedListener(onDrawerOpenedListener onDrawerOpenedListener) {
@@ -166,9 +227,6 @@ public class BaseActivity extends AppCompatActivity
     public void setOnDrawerClosedListener(onDrawerClosedListener onDrawerClosedListener) {
         mOnDrawerClosedListener = onDrawerClosedListener;
     }
-
-
-
 
     @Override
     public void onSuccess(BaseResponse response) {
@@ -191,14 +249,11 @@ public class BaseActivity extends AppCompatActivity
     }
 
     //------------------------------------------接口-----------------------------------------------
-    public interface onDrawerOpenedListener{
+    public interface onDrawerOpenedListener {
         void onDrawerOpened(View drawerView);
     }
 
-    public interface onDrawerClosedListener{
+    public interface onDrawerClosedListener {
         void onDrawerClosed(View drawerView);
     }
-
-
-
 }
