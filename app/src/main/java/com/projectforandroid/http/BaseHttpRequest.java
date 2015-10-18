@@ -6,6 +6,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.projectforandroid.ProjectApplication;
 import com.projectforandroid.cache.DiskCache;
+import com.projectforandroid.cache.MemoryCache;
 import com.projectforandroid.http.respon.BaseResponse;
 import com.projectforandroid.utils.DataUtils;
 import com.projectforandroid.utils.MD5Tools;
@@ -29,17 +30,20 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
     private Object data;
     public static DiskCache mDiskCache;
     private int requestType;
+    private static MemoryCache memoryCache;
 
     public BaseHttpRequest(Context context) {
         mContext = context;
         mDiskCache = new DiskCache(context);
         client.setTimeout(10000);
         mResponse=new BaseResponse();
+        memoryCache=MemoryCache.getInstance();
     }
 
     public BaseHttpRequest() {
         mDiskCache = new DiskCache(mContext);
         mResponse=new BaseResponse();
+        memoryCache=MemoryCache.getInstance();
     }
 
     //------------------------------------------抽象方法-----------------------------------------------
@@ -86,6 +90,7 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
                         mBaseResponse=new BaseResponse();
                         mBaseResponse.setStatus(statusCode);
                         mBaseResponse.setRequestType(requestType);
+                        memoryCache.putJsonToCache(getKey(),response);
                         mDiskCache.putJson(MD5Tools.hashKey(getKey()), response);
                         DataUtils.setSharedPreferenceData(ProjectApplication.editor,
                             MD5Tools.hashKey(getKey()),  MD5Tools.hashKey(getKey()));
