@@ -203,12 +203,12 @@ public class UIHelper {
     }
 
     //------------------------------------------启动Activity的方法请放到这里---------------------------------------------
+    /**启动到首页*/
     public static void startToIndexActivity(Activity c) {
         Intent intent = new Intent(c, IndexActivity.class);
         c.startActivity(intent);
         c.finish();
     }
-
     public static void startToCollectActivity(Activity c) {
         Intent intent = new Intent(c, CollectActivity.class);
         c.startActivity(intent);

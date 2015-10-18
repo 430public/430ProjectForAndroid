@@ -30,7 +30,7 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
     private Object data;
     public static DiskCache mDiskCache;
     private int requestType;
-    private static MemoryCache memoryCache;
+    public static MemoryCache memoryCache;
 
     public BaseHttpRequest(Context context) {
         mContext = context;
@@ -90,7 +90,7 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
                         mBaseResponse=new BaseResponse();
                         mBaseResponse.setStatus(statusCode);
                         mBaseResponse.setRequestType(requestType);
-                        memoryCache.putJsonToCache(getKey(),response);
+                        memoryCache.putJsonToCache(MD5Tools.hashKey(getKey()), response);
                         mDiskCache.putJson(MD5Tools.hashKey(getKey()), response);
                         DataUtils.setSharedPreferenceData(ProjectApplication.editor,
                             MD5Tools.hashKey(getKey()),  MD5Tools.hashKey(getKey()));
