@@ -21,6 +21,8 @@ import com.projectforandroid.ui.activity.DetailActivity;
 import com.projectforandroid.ui.activity.IndexActivity;
 import com.projectforandroid.ui.activity.PersonalActivity;
 import com.projectforandroid.ui.activity.SettingActivity;
+import com.projectforandroid.utils.camerautils.CameraUtils;
+import com.projectforandroid.widget.popup.PopupCamera;
 
 /**
  * Created by 大灯泡 on 2015/9/1.
@@ -200,6 +202,18 @@ public class UIHelper {
             if (v == null) return true;
         }
         return false;
+    }
+
+
+    /**打开拍摄照片和图片裁剪窗口*/
+    public static void startPhotoSelectActivity(Activity c){
+        PopupCamera popupCamera=new PopupCamera(c);
+        popupCamera.showPopupWindow();
+    }
+
+    /**打开拍照窗口*/
+    public static void startToTakePhothActivity(Context c){
+        CameraUtils.getPhtotFromCamera(c);
     }
 
     //------------------------------------------启动Activity的方法请放到这里---------------------------------------------
