@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_160"
     >
-    <ImageView
+    <com.projectforandroid.widget.GeneralImageView
         android:id="@+id/menu_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

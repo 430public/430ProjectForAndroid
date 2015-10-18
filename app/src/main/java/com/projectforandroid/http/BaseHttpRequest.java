@@ -4,10 +4,14 @@ import android.content.Context;
 import android.util.Log;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.projectforandroid.ProjectApplication;
 import com.projectforandroid.cache.DiskCache;
+import com.projectforandroid.cache.MemoryCache;
 import com.projectforandroid.http.respon.BaseResponse;
+import com.projectforandroid.utils.DataUtils;
 import com.projectforandroid.utils.MD5Tools;
 import com.projectforandroid.utils.stringutils.StringUtils;
+import java.util.Date;
 import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,24 +23,35 @@ import org.json.JSONObject;
 public abstract class BaseHttpRequest extends AsyncHttpClient {
     private static final String TAG = "BaseHttpClient";
     private static AsyncHttpClient client = new AsyncHttpClient();
-    private Context mContext;
+    public Context mContext;
     private OnResponseListener mOnResponseListener;
-    private BaseResponse mBaseResponse;
+    public BaseResponse mBaseResponse;
+    public static BaseResponse mResponse;
     private Object data;
-    private DiskCache mDiskCache;
+    public static DiskCache mDiskCache;
     private int requestType;
+    private static MemoryCache memoryCache;
 
     public BaseHttpRequest(Context context) {
         mContext = context;
-        mDiskCache=new DiskCache(context);
+        mDiskCache = new DiskCache(context);
         client.setTimeout(10000);
+        mResponse=new BaseResponse();
+        memoryCache=MemoryCache.getInstance();
     }
-    public BaseHttpRequest(){}
+
+    public BaseHttpRequest() {
+        mDiskCache = new DiskCache(mContext);
+        mResponse=new BaseResponse();
+        memoryCache=MemoryCache.getInstance();
+    }
 
     //------------------------------------------抽象方法-----------------------------------------------
 
     /** 用于拼接url */
     public abstract String getUrl();
+
+    public abstract String getKey();
 
     /** 实现get的方法 */
     public abstract void getResponseData(BaseResponse response, JSONObject json)
@@ -72,16 +87,22 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     if (mOnResponseListener != null) {
-                        mBaseResponse = new BaseResponse();
-                        mBaseResponse.setStatus(response.optInt("error_code"));
-                        mDiskCache.putJson(MD5Tools.hashKey(response.toString()), response);
+                        mBaseResponse=new BaseResponse();
+                        mBaseResponse.setStatus(statusCode);
+                        mBaseResponse.setRequestType(requestType);
+                        memoryCache.putJsonToCache(getKey(),response);
+                        mDiskCache.putJson(MD5Tools.hashKey(getKey()), response);
+                        DataUtils.setSharedPreferenceData(ProjectApplication.editor,
+                            MD5Tools.hashKey(getKey()),  MD5Tools.hashKey(getKey()));
                         try {
-                            getResponseData(mBaseResponse,response);
+                            getResponseData(mBaseResponse, response);
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e(TAG,"糟糕，app遭遇不明原因崩溃了");
+                            Log.e(TAG, "糟糕，app遭遇不明原因崩溃了");
                         }
+
                         mOnResponseListener.onSuccess(mBaseResponse);
+                        Log.d(">>>>>>>>>>>>>>>请求成功<<<<<<<<<<<<<<", response.toString());
                     }
                 }
 
@@ -89,15 +110,17 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable,
                     JSONObject errorResponse) {
                     if (mOnResponseListener != null) {
-                        mBaseResponse = new BaseResponse();
-                        mBaseResponse.setStatus(errorResponse.optInt("error_code"));
+                        mBaseResponse=new BaseResponse();
+                        mBaseResponse.setRequestType(requestType);
+                        mBaseResponse.setStatus(statusCode);
                         try {
-                            getResponseData(mBaseResponse,errorResponse);
+                            getResponseData(mBaseResponse, errorResponse);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.e(TAG, "糟糕，app遭遇不明原因崩溃了");
                         }
                         mOnResponseListener.onFailure(mBaseResponse);
+                        Log.d(">>>>>>>>>>>>>>>请求失败<<<<<<<<<<<<<<", errorResponse.toString());
                     }
                 }
 
