@@ -132,7 +132,7 @@ public class DiskCache {
     }
 
     /** 得到磁盘图片缓存路径 */
-    public static String getDiskCache() {
+    public static String getDiskCachePath() {
         return FileUtils.getSDCardPath() + File.separator + "430project" + File.separator
             + cacheName;
     }
@@ -147,7 +147,7 @@ public class DiskCache {
     }
 
     /** 清除缓存 */
-    public static void cleanOverTenDayFile() {
+    public static void cleanOverCache() {
         new Thread(cleanRunnable);
     }
 
@@ -167,15 +167,15 @@ public class DiskCache {
     private final static Runnable cleanRunnable = new Runnable() {
         public void run() {
             SystemClock.sleep(20 * 1000);
-            String subDir = DiskCache.getDiskCache() + File.separator;
+            String subDir = DiskCache.getDiskCachePath() + File.separator+"JsonCache";
             DiskCache.cleanFilter(subDir);
         }
     };
 
-    /** 清除10天前的图片 */
+    /** 清除20分钟前的JSON缓存 */
     private static class FileOverTenDay implements FileFilter {
         private long time = System.currentTimeMillis();
-        private long n = 10l * 24l * 3600000l; // 10天以前下载的图片
+        private long n = 20l*60l; // 20分钟前的JSON缓存
 
         public boolean accept(File f) {
             if (f != null) {

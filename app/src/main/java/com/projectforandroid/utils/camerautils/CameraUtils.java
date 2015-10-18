@@ -25,6 +25,7 @@ public class CameraUtils {
     private static File folder = new File(ProjectApplication.getPhotoImgPaht());
     private static String takePhotPath;
     private static String savePhotoPath;
+    private static File takePhoto;
 
     private CameraUtils() {
         throw new Error("不用new出来哦");
@@ -36,18 +37,19 @@ public class CameraUtils {
             if (!folder.exists()) {
                 folder.mkdir();
             }
-            String phtotDir = ProjectApplication.getPhotoImgPaht() + "/" + MD5Tools.hashKey(
-                "take in " + System.currentTimeMillis());
-            File photo = new File(phtotDir);
+            String phtotDir =
+                ProjectApplication.getPhotoImgPaht() + "/" + "take in " + MD5Tools.hashKey(
+                    "" + System.currentTimeMillis());
+            takePhoto = new File(phtotDir);
             setTakePhotPath(phtotDir);
-            photo.createNewFile();
+            takePhoto.createNewFile();
 
             //使用标准的intent去进行视频捕捉
             Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             //将拍到的图片放到指定文件夹
-            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
+            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(takePhoto));
             //将uri保存
-            photoUri = Uri.fromFile(photo);
+            photoUri = Uri.fromFile(takePhoto);
             //在onActivityForResult事件中进行相关的处理回调
             ((Activity) c).startActivityForResult(captureIntent, PHOTO_FROM_CAMERA);
         } catch (ActivityNotFoundException e) {
@@ -56,28 +58,29 @@ public class CameraUtils {
             e.printStackTrace();
         }
     }
-    /**打开图库*/
-    public static void getPhotoFromAlbum(Context c){
+
+    /** 打开图库 */
+    public static void getPhotoFromAlbum(Context c) {
         if (!folder.exists()) {
             folder.mkdir();
         }
-        String phtotDir = ProjectApplication.getPhotoImgPaht() + "/" + MD5Tools.hashKey(
-            "take in " + System.currentTimeMillis());
-        File photo = new File(phtotDir);
+        String phtotDir =
+            ProjectApplication.getPhotoImgPaht() + "/" + "take in " + MD5Tools.hashKey(
+                "" + System.currentTimeMillis());
+        takePhoto = new File(phtotDir);
         setTakePhotPath(phtotDir);
         try {
-            photo.createNewFile();
+            takePhoto.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Intent albumIntent=new Intent(Intent.ACTION_GET_CONTENT);
+        Intent albumIntent = new Intent(Intent.ACTION_GET_CONTENT);
         albumIntent.setType("image/*");
         //将拍到的图片放到指定文件夹
-        albumIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
+        albumIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(takePhoto));
         //将uri保存
-        photoUri = Uri.fromFile(photo);
-        ((Activity)c).startActivityForResult(albumIntent, PHOTO_FROM_ALBUM);
-
+        photoUri = Uri.fromFile(takePhoto);
+        ((Activity) c).startActivityForResult(albumIntent, PHOTO_FROM_ALBUM);
     }
 
     //------------------------------------------图片裁剪，调用系统自带的-------------------------------------------
@@ -87,8 +90,8 @@ public class CameraUtils {
             if (!folder.exists()) {
                 folder.mkdir();
             }
-            String photoDir = ProjectApplication.getPhotoImgPaht() + "/" + "img"+MD5Tools.hashKey(
-                "save in " + System.currentTimeMillis())+".png";
+            String photoDir = ProjectApplication.getPhotoImgPaht() + "/" + "img" + MD5Tools.hashKey(
+                "save in " + System.currentTimeMillis()) + ".png";
             File photo = new File(photoDir);
             setSavePhotoPath(photoDir);
             photo.createNewFile();
@@ -116,7 +119,7 @@ public class CameraUtils {
     }
 
     public static String getTakePhotPath() {
-        return takePhotPath+".png";
+        return takePhotPath + ".png";
     }
 
     public static void setTakePhotPath(String takePhotPath) {
@@ -129,5 +132,16 @@ public class CameraUtils {
 
     public static void setSavePhotoPath(String savePhotoPath) {
         CameraUtils.savePhotoPath = savePhotoPath;
+    }
+
+    /** 清除拍摄的照片 */
+    public static void cleanImgs() {
+        if (new File(ProjectApplication.getPhotoImgPaht()).isDirectory()) {
+            File[] files = new File(ProjectApplication.getPhotoImgPaht()).listFiles();
+            for (File file : files) {
+                String fileName = file.getName();
+                if (fileName.startsWith("take in")) file.delete();
+            }
+        }
     }
 }

@@ -226,18 +226,15 @@ public class UIHelper {
     public static void startToCollectActivity(Activity c) {
         Intent intent = new Intent(c, CollectActivity.class);
         c.startActivity(intent);
-        c.finish();
     }
 
     public static void startToPersonalActivity(Activity c) {
         Intent intent = new Intent(c, PersonalActivity.class);
         c.startActivity(intent);
-        c.finish();
     }
 
     public static void startToSettingActivity(Activity c) {
         Intent intent = new Intent(c, SettingActivity.class);
         c.startActivity(intent);
-        c.finish();
     }
 }
