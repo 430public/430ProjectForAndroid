@@ -3,7 +3,9 @@ package com.projectforandroid;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import com.projectforandroid.cache.DiskCache;
 import com.projectforandroid.imageloader.ImageLoaderCache;
+import com.projectforandroid.utils.camerautils.CameraUtils;
 import com.projectforandroid.utils.fileutils.FileUtils;
 import com.projectforandroid.utils.stringutils.StringUtils;
 import java.io.File;
@@ -27,6 +29,8 @@ public class ProjectApplication extends Application {
         sharedPreferences = context.getSharedPreferences("key", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         FileUtils.createFolder(getRootPath(), "images");
+        CameraUtils.cleanImgs();
+        DiskCache.cleanOverCache();
     }
 
     //------------------------------------------代码中得到各种xml属性-----------------------------------------------
@@ -55,10 +59,6 @@ public class ProjectApplication extends Application {
         }
     }
 
-    public static String getHotNewsKey() {
-        return "b78df342ebae4b8893898d33b0c21050";
-    }
-
     public static String getSecretKey() {
         return "7c154dde574c47359cc2fec7b3cbc434";
     }
@@ -80,6 +80,6 @@ public class ProjectApplication extends Application {
     }
 
     public static String getPhotoImgPaht() {
-        return FileUtils.getSDCardPath() + "430project" + File.separator + "images";
+        return getRootPath() + File.separator + "images";
     }
 }
