@@ -59,10 +59,6 @@ public class ProjectApplication extends Application {
         }
     }
 
-    public static String getHotNewsKey() {
-        return "b78df342ebae4b8893898d33b0c21050";
-    }
-
     public static String getSecretKey() {
         return "7c154dde574c47359cc2fec7b3cbc434";
     }
@@ -84,6 +80,6 @@ public class ProjectApplication extends Application {
     }
 
     public static String getPhotoImgPaht() {
-        return FileUtils.getSDCardPath() + "430project" + File.separator + "images";
+        return getRootPath() + File.separator + "images";
     }
 }
