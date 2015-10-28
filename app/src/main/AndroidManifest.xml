@@ -32,6 +32,11 @@
         <activity android:name=".ui.activity.PersonalActivity"/>
         <activity android:name=".ui.activity.SettingActivity"/>
         <activity android:name=".ui.activity.DetailActivity"/>
+        <receiver android:name=".boardcast.RefreshPicturesBroadCast">
+            <intent-filter android:priority="3">
+                <action android:name="refresh"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

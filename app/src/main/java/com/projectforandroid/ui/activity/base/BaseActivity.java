@@ -1,6 +1,8 @@
 package com.projectforandroid.ui.activity.base;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -20,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.projectforandroid.ProjectApplication;
 import com.projectforandroid.R;
+import com.projectforandroid.boardcast.RefreshPicturesBroadCast;
 import com.projectforandroid.http.OnResponseListener;
 import com.projectforandroid.http.respon.BaseResponse;
 import com.projectforandroid.imageloader.ImageLoaderCache;
@@ -38,6 +41,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
  */
 public class BaseActivity extends AppCompatActivity
     implements OnClickListener, OnNavigationItemSelectedListener, OnResponseListener {
+    public static final String refreshPics = "refresh";//broadCast的intentFilter
     private static final int CLICK_BG = 23;//点击背景
     private static final int CLICK_AVATAR = 233;//点击头像
 
@@ -64,22 +68,61 @@ public class BaseActivity extends AppCompatActivity
         // 添加Activity到堆栈
         AppManager.getAppManager().addActivity(this);
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //透明导航栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            SystemBarTintManager tintManager= new SystemBarTintManager(this);
+            SystemBarTintManager tintManager = new SystemBarTintManager(this);
             tintManager.setStatusBarTintColor(getResources().getColor(R.color.colorPrimary));
             tintManager.setStatusBarTintEnabled(true);
         }
+        registerReceiver(mBroadCast, new IntentFilter(refreshPics));
     }
+
+    private RefreshPicturesBroadCast mBroadCast = new RefreshPicturesBroadCast() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            super.onReceive(context, intent);
+            menuBackground.loadImage(
+                (String) DataUtils.getSharedPreferenceData(ProjectApplication.sharedPreferences,
+                    "background", "assets://default_menu_bg.png"));
+            avatar.loadImage(
+                (String) DataUtils.getSharedPreferenceData(ProjectApplication.sharedPreferences,
+                    "avatar", "assets://default_avatar.png"));
+        }
+    };
 
     @Override
     protected void onDestroy() {
         // 结束Activity从堆栈中移除
         AppManager.getAppManager().removeActivity(this);
+        unregisterReceiver(mBroadCast);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(mBroadCast);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mBroadCast);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        registerReceiver(mBroadCast, new IntentFilter(refreshPics));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mBroadCast, new IntentFilter(refreshPics));
     }
 
     //------------------------------------------初始化界面-----------------------------------------------
@@ -161,25 +204,21 @@ public class BaseActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.menu_personal_star:
-                // TODO: 2015/9/19 跳到个人收藏
                 menuItem.setCheckable(false);
                 mDrawerMenu.closeDrawers();
                 UIHelper.startToCollectActivity(this);
                 break;
             case R.id.menu_personal_detail:
-                // TODO: 2015/9/19 跳到个人资料
                 menuItem.setCheckable(false);
                 mDrawerMenu.closeDrawers();
                 UIHelper.startToPersonalActivity(this);
                 break;
             case R.id.menu_about:
-                // TODO: 2015/9/19 跳到关于
                 menuItem.setCheckable(false);
                 mDrawerMenu.closeDrawers();
                 UIHelper.ToastMessage(getApplicationContext(), (String) menuItem.getTitle(), 0);
                 break;
             case R.id.menu_setting:
-                // TODO: 2015/9/19 跳到设置
                 menuItem.setCheckable(false);
                 mDrawerMenu.closeDrawers();
                 UIHelper.startToSettingActivity(this);
