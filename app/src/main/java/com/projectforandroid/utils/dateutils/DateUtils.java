@@ -31,7 +31,7 @@ public class DateUtils {
      * 日期类型 *
      */
     public static final String yyyyMMDD = "yyyy-MM-dd";
-    public static final String yyyyMMddHHmmss = "yyyy-MM-dd HH:mm:ss";
+    public static final String yyyyMMddHHmmss = "yyyyMMddHHmmss";
     public static final String HHmmss = "HH:mm:ss";
     public static final String hhmmss = "HH:mm:ss";
     public static final String LOCALE_DATE_FORMAT = "yyyy年M月d日 HH:mm:ss";
@@ -48,7 +48,15 @@ public class DateUtils {
         throws Exception {
         return new SimpleDateFormat(pattern).parse(dateStr);
     }
+    public static String getDateByLong(long millionSeconds,String type){
+        Date date=new Date(millionSeconds);
+        SimpleDateFormat sdf=new SimpleDateFormat(type);
+        return sdf.format(date);
+    }
 
+    public static String getyyyyMMddHHmmss(long millionSeconds){
+        return getDateByLong(millionSeconds,yyyyMMddHHmmss);
+    }
     /**
      * 将Date类型转换为日期字符串
      *

@@ -16,7 +16,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.projectforandroid.R;
+import com.projectforandroid.ui.activity.CollectActivity;
+import com.projectforandroid.ui.activity.DetailActivity;
 import com.projectforandroid.ui.activity.IndexActivity;
+import com.projectforandroid.ui.activity.PersonalActivity;
+import com.projectforandroid.ui.activity.SettingActivity;
+import com.projectforandroid.utils.camerautils.CameraUtils;
+import com.projectforandroid.widget.popup.PopupCamera;
 
 /**
  * Created by 大灯泡 on 2015/9/1.
@@ -197,12 +203,38 @@ public class UIHelper {
         }
         return false;
     }
+
+
+    /**打开拍摄照片和图片裁剪窗口*/
+    public static void startPhotoSelectActivity(Activity c){
+        PopupCamera popupCamera=new PopupCamera(c);
+        popupCamera.showPopupWindow();
+    }
+
+    /**打开拍照窗口*/
+    public static void startToTakePhothActivity(Context c){
+        CameraUtils.getPhtotFromCamera(c);
+    }
+
     //------------------------------------------启动Activity的方法请放到这里---------------------------------------------
-    public static void startToIndexActivity(Activity c){
-        Intent intent=new Intent(c, IndexActivity.class);
+    /**启动到首页*/
+    public static void startToIndexActivity(Activity c) {
+        Intent intent = new Intent(c, IndexActivity.class);
         c.startActivity(intent);
         c.finish();
     }
+    public static void startToCollectActivity(Activity c) {
+        Intent intent = new Intent(c, CollectActivity.class);
+        c.startActivity(intent);
+    }
 
+    public static void startToPersonalActivity(Activity c) {
+        Intent intent = new Intent(c, PersonalActivity.class);
+        c.startActivity(intent);
+    }
 
+    public static void startToSettingActivity(Activity c) {
+        Intent intent = new Intent(c, SettingActivity.class);
+        c.startActivity(intent);
+    }
 }

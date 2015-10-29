@@ -26,10 +26,11 @@ public class ImageLoaderCache {
     private static volatile ImageLoaderCache instance;
     private static ImageLoader mLoader = ImageLoader.getInstance();
     private ImageLoaderConfiguration configuration;
-
+    ImageLoaderOption mImageLoaderOption = new ImageLoaderOption();
     //缓存地址
     private static final File cacheDir =
-        StorageUtils.getOwnCacheDirectory(ProjectApplication.context, "430project/Cache/ImageCache");
+        StorageUtils.getOwnCacheDirectory(ProjectApplication.context,
+            "430project/Cache/ImageCache");
 
     //------------------------------------------Methods-----------------------------------------------
     public static ImageLoaderCache getInstance() {
@@ -76,7 +77,7 @@ public class ImageLoaderCache {
     }
 
     public void loadImage(String url, ImageView imageView) {
-        mLoader.displayImage(url, imageView);
+        mLoader.displayImage(url, imageView, mImageLoaderOption.build());
     }
 
     public void loadImage(String url, ImageView imageView, DisplayImageOptions options,

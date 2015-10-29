@@ -18,18 +18,19 @@ public class ImageLoaderOption {
     private int showImageOnFail;
     private boolean cacheOnDisk = true;
     private ImageScaleType imageScaleType;
-    private Config bitmapConfig=Config.RGB_565;
+    private Config bitmapConfig = Config.RGB_565;
     private FadeInBitmapDisplayer displayer;
     private RoundedBitmapDisplayer mRoundedBitmapDisplayer;
+
     public ImageLoaderOption() {
-        showImageOnLoading=R.drawable.default_pic;
-        showImageForEmptyUri=R.drawable.default_pic;
-        showImageOnFail=R.drawable.default_pic;
-        cacheOnDisk=true;
-        imageScaleType=ImageScaleType.EXACTLY_STRETCHED;
-        bitmapConfig=Config.RGB_565;
-        displayer=new FadeInBitmapDisplayer(300);
-        mRoundedBitmapDisplayer=new RoundedBitmapDisplayer(0);
+        showImageOnLoading = R.drawable.default_pic;
+        showImageForEmptyUri = R.drawable.default_pic;
+        showImageOnFail = R.drawable.default_pic;
+        cacheOnDisk = true;
+        imageScaleType = ImageScaleType.EXACTLY_STRETCHED;
+        bitmapConfig = Config.RGB_565;
+        displayer = new FadeInBitmapDisplayer(300);
+        mRoundedBitmapDisplayer = new RoundedBitmapDisplayer(0);
     }
 
     public DisplayImageOptions getOptions() {
@@ -112,11 +113,13 @@ public class ImageLoaderOption {
     }
 
     public void setRound(int roundPx) {
-        this.mRoundedBitmapDisplayer = (mRoundedBitmapDisplayer == null ? mRoundedBitmapDisplayer : new RoundedBitmapDisplayer(roundPx));
+        this.mRoundedBitmapDisplayer = (mRoundedBitmapDisplayer == null ? mRoundedBitmapDisplayer
+            : new RoundedBitmapDisplayer(roundPx));
     }
 
     public DisplayImageOptions build() {
-        options = new DisplayImageOptions.Builder().showImageOnLoading(showImageOnLoading) //设置图片在下载期间显示的图片
+        options = new DisplayImageOptions.Builder().showImageOnLoading(
+            showImageOnLoading) //设置图片在下载期间显示的图片
             .showImageForEmptyUri(showImageForEmptyUri)//设置图片Uri为空或是错误的时候显示的图片
             .showImageOnFail(showImageOnFail)  //设置图片加载/解码过程中错误时候显示的图片
             .cacheInMemory(true)//存入缓存
@@ -125,7 +128,20 @@ public class ImageLoaderOption {
             .imageScaleType(imageScaleType)//设置图片以如何的编码方式显示
             .bitmapConfig(bitmapConfig)//设置图片的解码类型//
             .displayer(mRoundedBitmapDisplayer).build();//构建完成
+        return options;
+    }
 
+    public DisplayImageOptions getDefaultOption() {
+        options = new DisplayImageOptions.Builder().showImageOnLoading(
+            showImageOnLoading) //设置图片在下载期间显示的图片
+            .showImageForEmptyUri(showImageForEmptyUri)//设置图片Uri为空或是错误的时候显示的图片
+            .showImageOnFail(showImageOnFail)  //设置图片加载/解码过程中错误时候显示的图片
+            .cacheInMemory(true)//存入缓存
+            .cacheOnDisk(cacheOnDisk)//设置下载的图片是否缓存在SD卡中
+            .considerExifParams(true)  //是否考虑JPEG图像EXIF参数（旋转，翻转）
+            .imageScaleType(imageScaleType)//设置图片以如何的编码方式显示
+            .bitmapConfig(bitmapConfig)//设置图片的解码类型//
+            .build();
         return options;
     }
 }
