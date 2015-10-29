@@ -1,16 +1,22 @@
 package com.projectforandroid.ui.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.projectforandroid.R;
+import com.projectforandroid.adapter.FragmentAdapter;
+import com.projectforandroid.ui.activity.TopLine;
+import java.util.List;
 
 /**
  * Created by 杰 on 2015/9/21.
@@ -24,17 +30,16 @@ public class TopLineFragment extends Fragment{
         public ImageView img_jiantou;
 
     }
-    private String[] itemtitle = new String[] {
+    public String[] itemtitle = new String[] {
         "This is item1 title", "This is item2 title", "This is item3 title", "This is item4 title",
         "This is item5 title", "This is item6 title", "This is item7 title"
     };
-    private int[] header = new int[] {
+    public int[] header = new int[] {
         R.drawable.header, R.drawable.header, R.drawable.header, R.drawable.header,
         R.drawable.header, R.drawable.header, R.drawable.header
     };
-    private String[] content=new String[]{"This is item1 content", "This is item2 content", "This is item3 content", "This is item4 content",
+    public  String[] content=new String[]{"This is item1 content", "This is item2 content", "This is item3 content", "This is item4 content",
         "This is item5 content", "This is item6 content", "This is item7 content"};
-
 
     @Nullable
     @Override
@@ -42,7 +47,7 @@ public class TopLineFragment extends Fragment{
         Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_topline, null);
         ListView listView=(ListView)view.findViewById(R.id.topline_listview);
-        //定义一个Baseadapter
+       ///定义一个Baseadapter
         BaseAdapter adapter=new BaseAdapter() {
 
             @Override
@@ -82,6 +87,14 @@ public class TopLineFragment extends Fragment{
             }
         };
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent=new Intent();
+                intent.setClass(getActivity(),TopLine.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 }
