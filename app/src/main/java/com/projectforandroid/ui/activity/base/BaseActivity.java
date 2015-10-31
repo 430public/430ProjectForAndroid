@@ -1,13 +1,12 @@
 package com.projectforandroid.ui.activity.base;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.v4.widget.DrawerLayout;
@@ -18,16 +17,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.projectforandroid.ProjectApplication;
 import com.projectforandroid.R;
-import com.projectforandroid.boardcast.RefreshPicturesBroadCast;
 import com.projectforandroid.http.OnResponseListener;
 import com.projectforandroid.http.respon.BaseResponse;
-import com.projectforandroid.imageloader.ImageLoaderCache;
 import com.projectforandroid.ui.UIHelper;
-import com.projectforandroid.utils.BitmapUtils;
 import com.projectforandroid.utils.DataUtils;
 import com.projectforandroid.utils.camerautils.CameraUtils;
 import com.projectforandroid.utils.stackutils.AppManager;
@@ -41,7 +36,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
  */
 public class BaseActivity extends AppCompatActivity
     implements OnClickListener, OnNavigationItemSelectedListener, OnResponseListener {
-    public static final String refreshPics = "refresh";//broadCast的intentFilter
+    public static final int REFRESH_UI = 0x011;//共享handler的msg的内容
     private static final int CLICK_BG = 23;//点击背景
     private static final int CLICK_AVATAR = 233;//点击头像
 
@@ -59,6 +54,8 @@ public class BaseActivity extends AppCompatActivity
     private int type;
     protected Toolbar toolbar;
 
+    private ProjectApplication app;//全局
+    private shareHandler mHandler;
     //------------------------------------------生命期-----------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +64,9 @@ public class BaseActivity extends AppCompatActivity
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         // 添加Activity到堆栈
         AppManager.getAppManager().addActivity(this);
-
+        app= (ProjectApplication) getApplication();
+        mHandler=new shareHandler();
+        app.setHandler(mHandler);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -77,52 +76,12 @@ public class BaseActivity extends AppCompatActivity
             tintManager.setStatusBarTintColor(getResources().getColor(R.color.colorPrimary));
             tintManager.setStatusBarTintEnabled(true);
         }
-        registerReceiver(mBroadCast, new IntentFilter(refreshPics));
     }
-
-    private RefreshPicturesBroadCast mBroadCast = new RefreshPicturesBroadCast() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            super.onReceive(context, intent);
-            menuBackground.loadImage(
-                (String) DataUtils.getSharedPreferenceData(ProjectApplication.sharedPreferences,
-                    "background", "assets://default_menu_bg.png"));
-            avatar.loadImage(
-                (String) DataUtils.getSharedPreferenceData(ProjectApplication.sharedPreferences,
-                    "avatar", "assets://default_avatar.png"));
-        }
-    };
-
     @Override
     protected void onDestroy() {
         // 结束Activity从堆栈中移除
         AppManager.getAppManager().removeActivity(this);
-        unregisterReceiver(mBroadCast);
         super.onDestroy();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        unregisterReceiver(mBroadCast);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(mBroadCast);
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        registerReceiver(mBroadCast, new IntentFilter(refreshPics));
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver(mBroadCast, new IntentFilter(refreshPics));
     }
 
     //------------------------------------------初始化界面-----------------------------------------------
@@ -140,15 +99,21 @@ public class BaseActivity extends AppCompatActivity
         if (!UIHelper.isViewNull(toolbar, mDrawerMenu, mNavigationView, nick, mail, avatar,
             menuBackground)) {
             setSupportActionBar(toolbar);
+            nick.setText(
+                "" + DataUtils.getSharedPreferenceData(ProjectApplication.sharedPreferences, "nick",
+                    "未命名"));
+            mail.setText(
+                "" + DataUtils.getSharedPreferenceData(ProjectApplication.sharedPreferences, "mail",
+                    "unName@gmail.com"));
             mNavigationView.setNavigationItemSelectedListener(this);
             avatar.setOnClickListener(this);
             menuBackground.setOnClickListener(this);
             menuBackground.loadImage(
                 (String) DataUtils.getSharedPreferenceData(ProjectApplication.sharedPreferences,
-                    "background", "assets://default_menu_bg.png"));
+                    "background", "drawable://" + R.drawable.default_menu_bg));
             avatar.loadImage(
                 (String) DataUtils.getSharedPreferenceData(ProjectApplication.sharedPreferences,
-                    "avatar", "assets://default_avatar.png"));
+                    "avatar", "drawable://" + R.drawable.default_avatar));
             //动画
             mActionBarDrawerToggle =
                 new ActionBarDrawerToggle(this, mDrawerMenu, toolbar, R.string.drawer_open,
@@ -227,10 +192,13 @@ public class BaseActivity extends AppCompatActivity
         return true;
     }
 
+    protected void onActivityResult2(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         //照片回调
         if (requestCode == CameraUtils.PHOTO_FROM_CAMERA
             || resultCode == CameraUtils.PHOTO_FROM_CAMERA
@@ -246,23 +214,28 @@ public class BaseActivity extends AppCompatActivity
                 CameraUtils.cropImg(this, picUrl);
             }
         } else if (requestCode == CameraUtils.CROP_PHOTO) {
-            //获得返回的数据
-            Bundle extras = data.getExtras();
-            //获得实际剪裁的区域的bitmap图形
-            Bitmap pic = extras.getParcelable("data");
-            //设置图片
-            switch (type) {
-                case CLICK_AVATAR:
-                    DataUtils.setSharedPreferenceData(ProjectApplication.editor, "avatar",
-                        "file://" + CameraUtils.getSavePhotoPath());
-                    avatar.setImageBitmap(pic);
-                    break;
-                case CLICK_BG:
-                    DataUtils.setSharedPreferenceData(ProjectApplication.editor, "background",
-                        "file://" + CameraUtils.getSavePhotoPath());
-                    menuBackground.setImageBitmap(pic);
-                    break;
+            if (data == null) {
+                UIHelper.ToastMessage(this, "错误，图片不存在！", 0);
+            } else {
+                //获得返回的数据
+                Bundle extras = data.getExtras();
+                //获得实际剪裁的区域的bitmap图形
+                Bitmap pic = extras.getParcelable("data");
+                //设置图片
+                switch (type) {
+                    case CLICK_AVATAR:
+                        DataUtils.setSharedPreferenceData(ProjectApplication.editor, "avatar",
+                            "file://" + CameraUtils.getSavePhotoPath());
+                        avatar.setImageBitmap(pic);
+                        break;
+                    case CLICK_BG:
+                        DataUtils.setSharedPreferenceData(ProjectApplication.editor, "background",
+                            "file://" + CameraUtils.getSavePhotoPath());
+                        menuBackground.setImageBitmap(pic);
+                        break;
+                }
             }
+        }else {
         }
         //===========================上面是回调==================================
     }
@@ -304,5 +277,26 @@ public class BaseActivity extends AppCompatActivity
 
     public interface onDrawerClosedListener {
         void onDrawerClosed(View drawerView);
+    }
+
+    //------------------------------------------用于共享的内部handler-----------------------------------------------
+    public final class shareHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what==REFRESH_UI){
+                menuBackground.loadImage(
+                    (String) DataUtils.getSharedPreferenceData(ProjectApplication.sharedPreferences,
+                        "background", "drawable://" + R.drawable.default_menu_bg));
+                avatar.loadImage(
+                    (String) DataUtils.getSharedPreferenceData(ProjectApplication.sharedPreferences,
+                        "avatar", "drawable://" + R.drawable.default_avatar));
+                if (msg.obj!=null){
+                    String[] personalDetail= (String[]) msg.obj;
+                    nick.setText(personalDetail[0]);
+                    mail.setText(personalDetail[1]);
+                }
+            }
+        }
     }
 }

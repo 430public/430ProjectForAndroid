@@ -104,6 +104,7 @@
     <dimen name="dp_180">180dp</dimen>
     <dimen name="dp_185">185dp</dimen>
     <dimen name="dp_195">195dp</dimen>
+    <dimen name="dp_196">196dp</dimen>
     <dimen name="dp_200">200dp</dimen>
     <dimen name="dp_203">203dp</dimen>
     <dimen name="dp_210">210dp</dimen>

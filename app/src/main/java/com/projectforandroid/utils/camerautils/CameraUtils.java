@@ -137,11 +137,17 @@ public class CameraUtils {
     /** 清除拍摄的照片 */
     public static void cleanImgs() {
         if (new File(ProjectApplication.getPhotoImgPaht()).isDirectory()) {
-            File[] files = new File(ProjectApplication.getPhotoImgPaht()).listFiles();
-            for (File file : files) {
-                String fileName = file.getName();
-                if (fileName.startsWith("take in")) file.delete();
-            }
+            final File[] files = new File(ProjectApplication.getPhotoImgPaht()).listFiles();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (File file : files) {
+                        String fileName = file.getName();
+                        if (fileName.startsWith("take in")) file.delete();
+                    }
+                }
+            }).run();
+
         }
     }
 }

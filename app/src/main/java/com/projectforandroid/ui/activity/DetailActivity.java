@@ -1,15 +1,11 @@
 package com.projectforandroid.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 import com.projectforandroid.R;
-import com.projectforandroid.data.HotNewBean;
 import com.projectforandroid.ui.activity.base.BaseActivity;
-import com.projectforandroid.utils.dateutils.DateUtils;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by 杰 on 2015/10/16.
