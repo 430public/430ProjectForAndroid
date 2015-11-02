@@ -23,6 +23,7 @@ import com.projectforandroid.ui.activity.PersonalActivity;
 import com.projectforandroid.ui.activity.SettingActivity;
 import com.projectforandroid.utils.camerautils.CameraUtils;
 import com.projectforandroid.widget.popup.PopupCamera;
+import java.util.ArrayList;
 
 /**
  * Created by 大灯泡 on 2015/9/1.
@@ -223,18 +224,27 @@ public class UIHelper {
         c.startActivity(intent);
         c.finish();
     }
+
+    /**启动到个人收藏页面*/
     public static void startToCollectActivity(Activity c) {
         Intent intent = new Intent(c, CollectActivity.class);
         c.startActivity(intent);
     }
-
+    /**启动到个人设置页面*/
     public static void startToPersonalActivity(Activity c) {
         Intent intent = new Intent(c, PersonalActivity.class);
         c.startActivity(intent);
     }
-
+    /**启动到设置页面*/
     public static void startToSettingActivity(Activity c) {
         Intent intent = new Intent(c, SettingActivity.class);
         c.startActivity(intent);
     }
+    /**启动到新闻详细内容*/
+    public static void startToDetialActivity(Activity c,Intent intent,ArrayList<String> list) {
+        intent = new Intent(c, DetailActivity.class);
+        intent.putStringArrayListExtra("detial",list);
+        c.startActivity(intent);
+        c.finish();
+    }//点击新闻后跳转到详细页面
 }

@@ -2,7 +2,6 @@ package com.projectforandroid.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -18,8 +17,8 @@ import com.projectforandroid.http.OnResponseListener;
 import com.projectforandroid.http.request.HotNewsRequest;
 import com.projectforandroid.http.respon.BaseResponse;
 import com.projectforandroid.ui.UIHelper;
-import com.projectforandroid.ui.activity.DetailActivity;
-import java.io.Serializable;
+import com.projectforandroid.utils.DataUtils;
+import com.projectforandroid.utils.dateutils.DateUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +31,8 @@ public class TopLineFragment extends Fragment implements OnResponseListener {
     private ListView listView;
     private TopLineFragmentAdapter adapter;
     private Intent intent;
-    private ArrayList<String> DetialList = new ArrayList<>();//用于存放详细的新闻信息
-
+    private ArrayList<String> detiallist=new ArrayList<>();
+    private String str;
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -47,14 +46,21 @@ public class TopLineFragment extends Fragment implements OnResponseListener {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                DetialList.clear();
-                DetialList.add(0,mylist.get(position).title);
-                DetialList.add(1,String.valueOf(mylist.get(position).time));
-                DetialList.add(2,mylist.get(position).description);
-                intent = new Intent();
-                intent.setClass(getActivity(), DetailActivity.class);
-                intent.putStringArrayListExtra("detail", DetialList);
-                startActivity(intent);
+                /*detiallist存储数据的位置
+                 *0对应的是title
+                 *1对应的是description
+                 *2对应的是fromurl
+                 *3对应的是时间
+                 *4对应的是图片
+                 */
+                detiallist.add(0,mylist.get(position).title);
+                detiallist.add(1,mylist.get(position).description);
+                detiallist.add(2,mylist.get(position).fromurl);
+                str=DateUtils.getyyyyMMddHHmmss(mylist.get(position).time);
+                detiallist.add(3,str);
+                detiallist.add(4,mylist.get(position).img);
+                UIHelper.startToDetialActivity(getActivity(), intent,detiallist);
+
             }
         });
         return view;
