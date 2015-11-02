@@ -15,9 +15,15 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_124"
-            android:background="@drawable/default_menu_bg"
             android:id="@+id/relativeLayout"
             >
+            <com.projectforandroid.widget.GeneralImageView
+                android:id="@+id/menu_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/default_menu_bg"
+                android:scaleType="centerCrop"
+                />
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

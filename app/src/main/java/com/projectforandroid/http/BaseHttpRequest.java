@@ -6,6 +6,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.projectforandroid.ProjectApplication;
 import com.projectforandroid.cache.DiskCache;
+import com.projectforandroid.cache.MemoryCache;
 import com.projectforandroid.http.respon.BaseResponse;
 import com.projectforandroid.utils.DataUtils;
 import com.projectforandroid.utils.MD5Tools;
@@ -25,21 +26,23 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
     public Context mContext;
     private OnResponseListener mOnResponseListener;
     public BaseResponse mBaseResponse;
-    public static BaseResponse mResponse;
     private Object data;
     public static DiskCache mDiskCache;
     private int requestType;
+    public static MemoryCache memoryCache;
 
     public BaseHttpRequest(Context context) {
         mContext = context;
         mDiskCache = new DiskCache(context);
         client.setTimeout(10000);
-        mResponse=new BaseResponse();
+        memoryCache=MemoryCache.getInstance();
+        mBaseResponse=new BaseResponse();
     }
 
     public BaseHttpRequest() {
         mDiskCache = new DiskCache(mContext);
-        mResponse=new BaseResponse();
+        memoryCache=MemoryCache.getInstance();
+        mBaseResponse=new BaseResponse();
     }
 
     //------------------------------------------抽象方法-----------------------------------------------
@@ -83,9 +86,9 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     if (mOnResponseListener != null) {
-                        mBaseResponse=new BaseResponse();
                         mBaseResponse.setStatus(statusCode);
                         mBaseResponse.setRequestType(requestType);
+                        memoryCache.putJsonToCache(MD5Tools.hashKey(getKey()), response);
                         mDiskCache.putJson(MD5Tools.hashKey(getKey()), response);
                         DataUtils.setSharedPreferenceData(ProjectApplication.editor,
                             MD5Tools.hashKey(getKey()),  MD5Tools.hashKey(getKey()));
@@ -105,7 +108,6 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable,
                     JSONObject errorResponse) {
                     if (mOnResponseListener != null) {
-                        mBaseResponse=new BaseResponse();
                         mBaseResponse.setRequestType(requestType);
                         mBaseResponse.setStatus(statusCode);
                         try {

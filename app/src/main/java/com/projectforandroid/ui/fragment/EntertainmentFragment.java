@@ -33,9 +33,8 @@ public class EntertainmentFragment extends Fragment implements OnResponseListene
     private EntertainmentFragmentAdapter EntertainmentAdapter;
     private ListView mListView;
     private List<EntertainmentBean.EntertainmentBeanResult> mlist;
-    private EntertainmentBean ebean;
-    private ArrayList<String> DetialList=new ArrayList<>();
     private Intent intent;
+    private ArrayList<String> detiallist = new ArrayList<>();
 
     @Nullable
     @Override
@@ -43,7 +42,7 @@ public class EntertainmentFragment extends Fragment implements OnResponseListene
         Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_topline, null);
         GetData();
-        mListView = (ListView) view.findViewById(R.id.topline_listview);//服用topLine的布局文件
+        mListView = (ListView) view.findViewById(R.id.topline_listview);//复用topLine的布局文件
         mlist = new ArrayList<>();
         EntertainmentAdapter =
             new EntertainmentFragmentAdapter(this.getActivity(), mlist, mListView);
@@ -51,14 +50,20 @@ public class EntertainmentFragment extends Fragment implements OnResponseListene
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                DetialList.clear();
-                DetialList.add(0, mlist.get(position).title);
-                DetialList.add(1, String.valueOf(mlist.get(position).time));
-                DetialList.add(2, mlist.get(position).description);
-                intent = new Intent();
-                intent.setClass(getActivity(), DetailActivity.class);
-                intent.putStringArrayListExtra("detail", DetialList);
-                startActivity(intent);
+                detiallist.clear();
+                /*
+                 * 0对应的是标题
+                 * 1对应的是描述
+                 * 2对应的是URL
+                 * 3对应的是时间
+                 * 4对应的是图片
+                 */
+                detiallist.add(0, mlist.get(position).title);
+                detiallist.add(1, mlist.get(position).description);
+                detiallist.add(2,mlist.get(position).url);
+                detiallist.add(3, String.valueOf(mlist.get(position).time));
+                detiallist.add(4,mlist.get(position).picUrl);
+                UIHelper.startToDetialActivity(getActivity(), intent, detiallist);
             }
         });
         return view;
@@ -69,14 +74,8 @@ public class EntertainmentFragment extends Fragment implements OnResponseListene
             DateUtils.getyyyyMMddHHmmss(System.currentTimeMillis()),
             ProjectApplication.getSecretKey());
         mEntertainmentRequest.setOnResponseListener(this);
-        if (mEntertainmentRequest.LoadCache() != null) {
-             ebean = (EntertainmentBean) mEntertainmentRequest.LoadCache();
-            this.mlist.clear();
-            this.mlist.addAll(ebean.getEntertainmentBeans());
-            EntertainmentAdapter.notifyDataSetChanged();
-        } else {
-            mEntertainmentRequest.execute();
-        }
+        mEntertainmentRequest.execute();
+
     }
 
     //------------------------------------------Listener-----------------------------------------------
@@ -85,7 +84,7 @@ public class EntertainmentFragment extends Fragment implements OnResponseListene
         if (response.getStatus() == 0) {
             return;
         } else if (response.getStatus() != 0) {
-            ebean = (EntertainmentBean) response.getData();
+            EntertainmentBean ebean = (EntertainmentBean) response.getData();
             mlist.clear();
             mlist.addAll(ebean.getEntertainmentBeans());
             EntertainmentAdapter.notifyDataSetChanged();

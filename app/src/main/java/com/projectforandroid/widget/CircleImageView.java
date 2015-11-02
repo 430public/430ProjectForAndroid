@@ -36,7 +36,7 @@ import com.projectforandroid.R;
  * app:border_color="#FF000000"/>
  */
 
-public class CircleImageView extends ImageView {
+public class CircleImageView extends GeneralImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 

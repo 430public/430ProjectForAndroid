@@ -25,24 +25,26 @@ public class EntertainmentRequest extends BaseHttpRequest {
     private String timestamp;
     private String sign;
 
-    public EntertainmentRequest(Context context,  int num,  int page,String id, String timestamp,  String sign) {
+    public EntertainmentRequest(Context context, int num, int page, String id, String timestamp,
+        String sign) {
         mContext = context;
-        this.num=num;
-        this.page=page;
-        this.id=id;
-        this.timestamp=timestamp;
-        this.sign=sign;
+        this.num = num;
+        this.page = page;
+        this.id = id;
+        this.timestamp = timestamp;
+        this.sign = sign;
     }
 
     @Override
     public String getUrl() {
-       return String.format(Locale.getDefault(),"%s?num=%d&page=%d&showapi_appid=%s&showapi_timestamp=%s&showapi_sign=%s",
-           ProjectApplication.getEntertainmentBaseUrl(),num,page,id,timestamp,sign);
+        return String.format(Locale.getDefault(),
+            "%s?num=%d&page=%d&showapi_appid=%s&showapi_timestamp=%s&showapi_sign=%s",
+            ProjectApplication.getEntertainmentBaseUrl(), num, page, id, timestamp, sign);
     }
 
     @Override
     public String getKey() {
-        return getUrl();
+        return ProjectApplication.getEntertainmentBaseUrl();
     }
 
     @Override
@@ -53,8 +55,8 @@ public class EntertainmentRequest extends BaseHttpRequest {
                 EntertainmentBean bean = new EntertainmentBean();
                 List<EntertainmentBean.EntertainmentBeanResult> list =
                     new ArrayList<>(object.length());
-                for (int i = 0; i < object.length()-2; i++) {
-                    JSONObject obj = object.optJSONObject(""+i);
+                for (int i = 0; i < object.length() - 2; i++) {
+                    JSONObject obj = object.optJSONObject("" + i);
                     EntertainmentBean.EntertainmentBeanResult result =
                         new EntertainmentBean.EntertainmentBeanResult();
                     result.description = obj.optString("description");
@@ -67,27 +69,8 @@ public class EntertainmentRequest extends BaseHttpRequest {
                 }
                 bean.setEntertainmentBeans(list);
                 response.setData(bean);
-                mResponse.setData(bean);
             }
         }
     }
-    public Object LoadCache() {
-        try {
-            JSONObject object;
-            object = mDiskCache.getJsonCache(
-                (String) DataUtils.getSharedPreferenceData(ProjectApplication.sharedPreferences,
-                    MD5Tools.hashKey(getKey()), MD5Tools.hashKey(getKey())));
-            if (object != null && mResponse != null) {
-                mResponse.setStatus(0);
-                getResponseData(mResponse, object);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if (mResponse.getData() != null) {
-            return mResponse.getData();
-        } else {
-            return null;
-        }
-    }
+
 }

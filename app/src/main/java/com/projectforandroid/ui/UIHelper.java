@@ -21,6 +21,9 @@ import com.projectforandroid.ui.activity.DetailActivity;
 import com.projectforandroid.ui.activity.IndexActivity;
 import com.projectforandroid.ui.activity.PersonalActivity;
 import com.projectforandroid.ui.activity.SettingActivity;
+import com.projectforandroid.utils.camerautils.CameraUtils;
+import com.projectforandroid.widget.popup.PopupCamera;
+import java.util.ArrayList;
 
 /**
  * Created by 大灯泡 on 2015/9/1.
@@ -202,28 +205,49 @@ public class UIHelper {
         return false;
     }
 
+
+    /**打开拍摄照片和图片裁剪窗口*/
+    public static void startPhotoSelectActivity(Activity c){
+        PopupCamera popupCamera=new PopupCamera(c);
+        popupCamera.showPopupWindow();
+    }
+
+    /**打开拍照窗口*/
+    public static void startToTakePhothActivity(Context c){
+        CameraUtils.getPhtotFromCamera(c);
+    }
+
     //------------------------------------------启动Activity的方法请放到这里---------------------------------------------
+    /**启动到首页*/
     public static void startToIndexActivity(Activity c) {
         Intent intent = new Intent(c, IndexActivity.class);
         c.startActivity(intent);
         c.finish();
     }
 
+    /**启动到个人收藏页面*/
     public static void startToCollectActivity(Activity c) {
         Intent intent = new Intent(c, CollectActivity.class);
         c.startActivity(intent);
         c.finish();
     }
-
+    /**启动到个人设置页面*/
     public static void startToPersonalActivity(Activity c) {
         Intent intent = new Intent(c, PersonalActivity.class);
         c.startActivity(intent);
         c.finish();
     }
-
+    /**启动到设置页面*/
     public static void startToSettingActivity(Activity c) {
         Intent intent = new Intent(c, SettingActivity.class);
         c.startActivity(intent);
         c.finish();
     }
+    /**启动到新闻详细内容*/
+    public static void startToDetialActivity(Activity c,Intent intent,ArrayList<String> list) {
+        intent = new Intent(c, DetailActivity.class);
+        intent.putStringArrayListExtra("detial",list);
+        c.startActivity(intent);
+        c.finish();
+    }//点击新闻后跳转到详细页面
 }
