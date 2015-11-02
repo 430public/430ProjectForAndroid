@@ -89,7 +89,7 @@ public class DetailActivity extends BaseActivity {
                     CollectList = dlist;
                     Toast.makeText(DetailActivity.this, "成功收藏", Toast.LENGTH_SHORT).show();
                     saveData();
-                    
+
                 }
             }
         });
