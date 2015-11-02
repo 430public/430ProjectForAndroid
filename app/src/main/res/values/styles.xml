@@ -2,8 +2,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-
         <!--ActionBar的颜色-->
         <item name="colorPrimary">@color/colorPrimary</item>
         <!-- 随主题而改变的颜色（如CheckBox的颜色）-->
@@ -13,9 +11,7 @@
         <!--菜单栏字体颜色-->
         <item name="android:textColorPrimary">@android:color/darker_gray</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
-
+        <item name="android:fitsSystemWindows">true</item>
 
     </style>
 

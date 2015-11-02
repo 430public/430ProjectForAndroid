@@ -14,8 +14,7 @@ import org.json.JSONObject;
 
 /**
  * Created by 大灯泡 on 2015/9/20.
- * 硬盘缓存
- * 暂时预留，图片使用ImageLoader的缓存机制
+ * 硬盘缓存,目前用于存储JSON内容
  */
 public class DiskCache {
     private static final String TAG = "DiskCache";
@@ -33,8 +32,7 @@ public class DiskCache {
     public DiskCache(Context context) {
         // 判断缓存目录
         if (FileUtils.isSDexist()) {
-            cacheDir =
-                new File(FileUtils.getSDCardPath() + File.separator + "430project", cacheName);
+            cacheDir = new File(FileUtils.getSDCardPath() + "430project", cacheName);
             jsonCache = new File(cacheDir, jsonCacheName);
             bitmapCache = new File(cacheDir, bitmapCacheName);
         } else {
@@ -62,17 +60,17 @@ public class DiskCache {
         return null;
     }
 
-    /**根据key寻找json缓存*/
-    public JSONObject getJsonCache(String key) throws JSONException{
-        final String jsonCachePath=jsonCache.getAbsolutePath()+"/"+key;
+    /** 根据key寻找json缓存 */
+    public JSONObject getJsonCache(String key) throws JSONException {
+        final String jsonCachePath = jsonCache.getAbsolutePath() + "/" + key;
         final JSONObject[] object = { null };
-        Runnable runnable=new Runnable() {
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                byte[]  data =FileUtils.getBytesFromSD(jsonCachePath);
-                if (data!=null&&data.length>0){
+                byte[] data = FileUtils.getBytesFromSD(jsonCachePath);
+                if (data != null && data.length > 0) {
                     try {
-                        object[0] =new JSONObject(new String(data));
+                        object[0] = new JSONObject(new String(data));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -80,7 +78,7 @@ public class DiskCache {
             }
         };
         runnable.run();
-        return object[0] ==null?null: object[0];
+        return object[0] == null ? null : object[0];
     }
 
     /**
@@ -132,7 +130,7 @@ public class DiskCache {
     }
 
     /** 得到磁盘图片缓存路径 */
-    public static String getDiskCache() {
+    public static String getDiskCachePath() {
         return FileUtils.getSDCardPath() + File.separator + "430project" + File.separator
             + cacheName;
     }
@@ -147,35 +145,33 @@ public class DiskCache {
     }
 
     /** 清除缓存 */
-    public static void cleanOverTenDayFile() {
-        new Thread(cleanRunnable);
+    public static void cleanOverCache() {
+        new Thread(cleanRunnable).run();
     }
 
     public static void cleanFilter(String path) {
         // 获得文件缓存路径
         File dir = new File(path);
-        File files[] = dir.listFiles(new FileOverTenDay());
+        File files[] = dir.listFiles(new FileOverTwentyMinutes());
         if (files != null) {
             for (File file : files) {
                 file.delete();
                 Log.i("delete cache file", file.getName());
-                SystemClock.sleep(200);
             }
         }
     }
 
     private final static Runnable cleanRunnable = new Runnable() {
         public void run() {
-            SystemClock.sleep(20 * 1000);
-            String subDir = DiskCache.getDiskCache() + File.separator;
+            String subDir = DiskCache.getDiskCachePath() + File.separator + "JsonCache";
             DiskCache.cleanFilter(subDir);
         }
     };
 
-    /** 清除10天前的图片 */
-    private static class FileOverTenDay implements FileFilter {
+    /** 清除20分钟前的JSON缓存 */
+    private static class FileOverTwentyMinutes implements FileFilter {
         private long time = System.currentTimeMillis();
-        private long n = 10l * 24l * 3600000l; // 10天以前下载的图片
+        private long n = 20l * 60l; // 20分钟前的JSON缓存
 
         public boolean accept(File f) {
             if (f != null) {

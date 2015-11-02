@@ -229,19 +229,16 @@ public class UIHelper {
     public static void startToCollectActivity(Activity c) {
         Intent intent = new Intent(c, CollectActivity.class);
         c.startActivity(intent);
-        c.finish();
     }
     /**启动到个人设置页面*/
     public static void startToPersonalActivity(Activity c) {
         Intent intent = new Intent(c, PersonalActivity.class);
         c.startActivity(intent);
-        c.finish();
     }
     /**启动到设置页面*/
     public static void startToSettingActivity(Activity c) {
         Intent intent = new Intent(c, SettingActivity.class);
         c.startActivity(intent);
-        c.finish();
     }
     /**启动到新闻详细内容*/
     public static void startToDetialActivity(Activity c,Intent intent,ArrayList<String> list) {
