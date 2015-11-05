@@ -3,8 +3,10 @@ package com.projectforandroid;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import com.projectforandroid.cache.DiskCache;
 import com.projectforandroid.imageloader.ImageLoaderCache;
+import com.projectforandroid.ui.activity.base.BaseActivity;
 import com.projectforandroid.utils.camerautils.CameraUtils;
 import com.projectforandroid.utils.fileutils.FileUtils;
 import com.projectforandroid.utils.stringutils.StringUtils;
@@ -20,6 +22,9 @@ public class ProjectApplication extends Application {
     public static SharedPreferences sharedPreferences;
     public static SharedPreferences.Editor editor;
 
+    //共享handler，用于不同activity之间的数据共享
+    private BaseActivity.shareHandler mHandler=null;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -28,9 +33,12 @@ public class ProjectApplication extends Application {
         ImageLoaderCache.getInstance().initImageLoader();
         sharedPreferences = context.getSharedPreferences("key", MODE_PRIVATE);
         editor = sharedPreferences.edit();
+        long start=System.currentTimeMillis();
         FileUtils.createFolder(getRootPath(), "images");
         CameraUtils.cleanImgs();
         DiskCache.cleanOverCache();
+        long end=System.currentTimeMillis();
+        Log.d("haoshi",""+(end-start));
     }
 
     //------------------------------------------代码中得到各种xml属性-----------------------------------------------
@@ -81,5 +89,13 @@ public class ProjectApplication extends Application {
 
     public static String getPhotoImgPaht() {
         return getRootPath() + File.separator + "images";
+    }
+
+    public BaseActivity.shareHandler getHandler() {
+        return mHandler;
+    }
+
+    public void setHandler(BaseActivity.shareHandler handler) {
+        mHandler = handler;
     }
 }

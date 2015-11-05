@@ -157,14 +157,12 @@ public class DiskCache {
             for (File file : files) {
                 file.delete();
                 Log.i("delete cache file", file.getName());
-                SystemClock.sleep(200);
             }
         }
     }
 
     private final static Runnable cleanRunnable = new Runnable() {
         public void run() {
-            SystemClock.sleep(20 * 1000);
             String subDir = DiskCache.getDiskCachePath() + File.separator + "JsonCache";
             DiskCache.cleanFilter(subDir);
         }

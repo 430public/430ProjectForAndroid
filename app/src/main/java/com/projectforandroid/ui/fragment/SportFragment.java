@@ -34,8 +34,7 @@ public class SportFragment extends Fragment implements OnResponseListener {
     private ListView sListview;
     private List<SportNewsBean.SportNewsBeanResult> slist;
     private Intent intent;
-    private ArrayList<String> DetialList=new ArrayList<>();
-
+    private ArrayList<String> detiallist = new ArrayList<>();
 
     @Nullable
     @Override
@@ -50,14 +49,20 @@ public class SportFragment extends Fragment implements OnResponseListener {
         sListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                DetialList.clear();
-                DetialList.add(0, slist.get(position).title);
-                DetialList.add(1, String.valueOf(slist.get(position).time));
-                DetialList.add(2, slist.get(position).description);
-                intent = new Intent();
-                intent.setClass(getActivity(), DetailActivity.class);
-                intent.putStringArrayListExtra("detail", DetialList);
-                startActivity(intent);
+                detiallist.clear();
+                /*
+                 * 0对应的是标题
+                 * 1对应的是描述
+                 * 2对应的是url
+                 * 3对应的是时间
+                 * 4对应的是图片
+                 */
+                detiallist.add(0, slist.get(position).title);
+                detiallist.add(1, slist.get(position).description);
+                detiallist.add(2, slist.get(position).url);
+                detiallist.add(3, String.valueOf(slist.get(position).time));
+                detiallist.add(4,slist.get(position).picUrl);
+                UIHelper.startToDetialActivity(getActivity(), intent, detiallist);
             }
         });
         return view;
