@@ -22,7 +22,7 @@ public class CameraUtils {
     public static final int CROP_PHOTO = 2;//裁剪图片识别码
     private static final String IMAGE_TYPE = "image/*";
     public static Uri photoUri;
-    private static File folder = new File(ProjectApplication.getPhotoImgPaht());
+    private static File folder = new File(ProjectApplication.getPhotoImgPath());
     private static String takePhotPath;
     private static String savePhotoPath;
     private static File takePhoto;
@@ -38,7 +38,7 @@ public class CameraUtils {
                 folder.mkdir();
             }
             String phtotDir =
-                ProjectApplication.getPhotoImgPaht() + "/" + "take in " + MD5Tools.hashKey(
+                ProjectApplication.getPhotoImgPath() + "/" + "take in " + MD5Tools.hashKey(
                     "" + System.currentTimeMillis());
             takePhoto = new File(phtotDir);
             setTakePhotPath(phtotDir);
@@ -65,7 +65,7 @@ public class CameraUtils {
             folder.mkdir();
         }
         String phtotDir =
-            ProjectApplication.getPhotoImgPaht() + "/" + "take in " + MD5Tools.hashKey(
+            ProjectApplication.getPhotoImgPath() + "/" + "take in " + MD5Tools.hashKey(
                 "" + System.currentTimeMillis());
         takePhoto = new File(phtotDir);
         setTakePhotPath(phtotDir);
@@ -90,7 +90,7 @@ public class CameraUtils {
             if (!folder.exists()) {
                 folder.mkdir();
             }
-            String photoDir = ProjectApplication.getPhotoImgPaht() + "/" + "img" + MD5Tools.hashKey(
+            String photoDir = ProjectApplication.getPhotoImgPath() + "/" + "img" + MD5Tools.hashKey(
                 "save in " + System.currentTimeMillis()) + ".png";
             File photo = new File(photoDir);
             setSavePhotoPath(photoDir);
@@ -136,8 +136,8 @@ public class CameraUtils {
 
     /** 清除拍摄的照片 */
     public static void cleanImgs() {
-        if (new File(ProjectApplication.getPhotoImgPaht()).isDirectory()) {
-            final File[] files = new File(ProjectApplication.getPhotoImgPaht()).listFiles();
+        if (new File(ProjectApplication.getPhotoImgPath()).isDirectory()) {
+            final File[] files = new File(ProjectApplication.getPhotoImgPath()).listFiles();
             new Thread(new Runnable() {
                 @Override
                 public void run() {

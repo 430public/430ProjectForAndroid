@@ -100,7 +100,7 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
                         }
 
                         mOnResponseListener.onSuccess(mBaseResponse);
-                        Log.d(">>>>>>>>>>>>>>>请求成功<<<<<<<<<<<<<<", response.toString());
+                        Log.d(">>>>>>>>请求成功<<<<<", response.toString());
                     }
                 }
 
@@ -117,7 +117,6 @@ public abstract class BaseHttpRequest extends AsyncHttpClient {
                             Log.e(TAG, "糟糕，app遭遇不明原因崩溃了");
                         }
                         mOnResponseListener.onFailure(mBaseResponse);
-                        Log.d(">>>>>>>>>>>>>>>请求失败<<<<<<<<<<<<<<", errorResponse.toString());
                     }
                 }
 

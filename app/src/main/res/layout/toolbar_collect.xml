@@ -17,12 +17,13 @@
         >
     <CheckBox
         android:id="@+id/collect_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_32"
+        android:layout_height="@dimen/dp_32"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/dp_32"
-        android:button="@drawable/collectbutton_selector"
+        android:button="@null"
+        android:background="@drawable/collectbutton_selector"
         />
     </RelativeLayout>
 </android.support.v7.widget.Toolbar>

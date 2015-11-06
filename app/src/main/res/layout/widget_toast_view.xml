@@ -6,7 +6,7 @@
     android:layout_marginRight="@dimen/dp_20"
     android:background="@drawable/toast_bgs"
     android:gravity="center"
-    android:padding="@dimen/dp_5">
+    android:padding="@dimen/dp_10">
 
     <ImageView
         android:id="@+id/toast_icon"
