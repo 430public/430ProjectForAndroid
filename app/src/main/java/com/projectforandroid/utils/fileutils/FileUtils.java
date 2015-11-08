@@ -245,12 +245,13 @@ public class FileUtils {
         }
         return fileList;
     }
+
     // 保存字节到文件
-    public static void saveBytesToSD(String filePath, byte[] data) {
+    public static void saveBytesToSD(String filePath, String fileName, byte[] data) {
         if (data != null) {
             FileOutputStream fos = null;
             try {
-                File file = new File(filePath);
+                File file = new File(filePath, fileName);
                 fos = new FileOutputStream(file);
                 fos.write(data);
                 fos.flush();
@@ -266,7 +267,6 @@ public class FileUtils {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         }
     }
@@ -282,7 +282,6 @@ public class FileUtils {
                 buf = new byte[(int) file.length()];
                 fis.read(buf);
             }
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (OutOfMemoryError e) {
@@ -291,11 +290,23 @@ public class FileUtils {
             e.printStackTrace();
         } finally {
             try {
-                if (fis != null)
-                    fis.close();
+                if (fis != null) fis.close();
             } catch (Exception e) {
             }
         }
         return buf;
+    }
+
+    //将文件夹中的文件按修改时间进行排序
+    public static void Filecompositor(File[] files) {
+        for (int i = 0; i < files.length; i++) {
+            for (int j = i + 1; j < files.length; j++) {
+                if (files[i].lastModified() < files[j].lastModified()) {
+                    File f = files[j];
+                    files[j] = files[i];
+                    files[i] = f;
+                }
+            }
+        }
     }
 }

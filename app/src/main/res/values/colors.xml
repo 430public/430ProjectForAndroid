@@ -9,10 +9,11 @@
     <color name="color_01adc2">#01adc2</color>
     <color name="color_dcdcdc">#dcdcdc</color>
     <color name="color_f3437f">#f3437f</color>
+    <color name="color_66a5a5a5">#66a5a5a5</color>
+    <color name="color_ff261a">#ff261a</color>
+    <color name="color_14000000">#14000000</color>
 
 
-
-    <color name="color_dcdcdc">#dcdcdc</color>
     <color name="color_00acc1">#00acc1</color>
     <!--分割线-->
     <color name="line_color">#dcdcdc</color>
@@ -25,5 +26,7 @@
     <color name="colorAccent">#01adc2</color>
     <color name="colorPrimaryDark">#0097ac</color>
 
+    <!--popup-->
+    <color name="popup_outside">#74000000</color>
 
 </resources>

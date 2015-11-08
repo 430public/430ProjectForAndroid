@@ -2,8 +2,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-
         <!--ActionBar的颜色-->
         <item name="colorPrimary">@color/colorPrimary</item>
         <!-- 随主题而改变的颜色（如CheckBox的颜色）-->
@@ -12,9 +10,21 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <!--菜单栏字体颜色-->
         <item name="android:textColorPrimary">@android:color/darker_gray</item>
-
         <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:fitsSystemWindows">true</item>
 
+    </style>
+
+
+
+    <!--popup style-->
+    <style name="PopupBase">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_marginLeft">@dimen/dp_25</item>
+        <item name="android:layout_marginRight">@dimen/dp_25</item>
+        <item name="android:background">@drawable/popup_base_background</item>
     </style>
 
 </resources>

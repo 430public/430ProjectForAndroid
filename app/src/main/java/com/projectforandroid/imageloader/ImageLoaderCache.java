@@ -26,10 +26,11 @@ public class ImageLoaderCache {
     private static volatile ImageLoaderCache instance;
     private static ImageLoader mLoader = ImageLoader.getInstance();
     private ImageLoaderConfiguration configuration;
-
+    ImageLoaderOption mImageLoaderOption = new ImageLoaderOption();
     //缓存地址
     private static final File cacheDir =
-        StorageUtils.getOwnCacheDirectory(ProjectApplication.context, "430project/Cache/ImageCache");
+        StorageUtils.getOwnCacheDirectory(ProjectApplication.context,
+            "430project/Cache/ImageCache");
 
     //------------------------------------------Methods-----------------------------------------------
     public static ImageLoaderCache getInstance() {
@@ -59,7 +60,7 @@ public class ImageLoaderCache {
             .diskCacheSize(30 * 1024 * 1024)//磁盘缓存大小30M
             .diskCacheFileNameGenerator(new Md5FileNameGenerator())//MD5保存文件名
             .diskCacheFileCount(120)//最多100张图片
-            .writeDebugLogs()//写入日志
+            //.writeDebugLogs()//写入日志
             .build();
         mLoader.init(configuration);
     }
@@ -76,7 +77,7 @@ public class ImageLoaderCache {
     }
 
     public void loadImage(String url, ImageView imageView) {
-        mLoader.displayImage(url, imageView);
+        mLoader.displayImage(url, imageView, mImageLoaderOption.build());
     }
 
     public void loadImage(String url, ImageView imageView, DisplayImageOptions options,

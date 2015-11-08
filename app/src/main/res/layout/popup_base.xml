@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/popup_outside"
+    >
+
+    <!--popup内部内容-->
+    <RelativeLayout
+        android:id="@+id/popup_base"
+        style="@style/PopupBase"
+        >
+        <TextView
+            android:id="@+id/popup_base_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/sp_18"
+            android:text="@string/popup_base_title"
+            android:textColor="@color/colorPrimary"
+            android:padding="@dimen/dp_8"
+            />
+        <View
+            android:id="@+id/popup_base_title_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_below="@id/popup_base_title"
+            android:background="@color/colorPrimary"
+            />
+        <LinearLayout
+            android:layout_below="@id/popup_base_title_line"
+            android:id="@+id/popup_base_content_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/popup_choose_from_camera"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/dp_16"
+                android:text="@string/popup_choose_from_camera"
+                android:textColor="@color/colorPrimary"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.05dp"
+                android:background="@color/colorPrimary"
+                />
+            <TextView
+                android:id="@+id/popup_choose_from_album"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_16"
+                android:gravity="center"
+                android:text="@string/popup_choose_from_album"
+                android:textColor="@color/colorPrimary"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.05dp"
+                android:background="@color/color_a5a5a5"
+                />
+            <TextView
+                android:id="@+id/popup_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_16"
+                android:gravity="center"
+
+                android:text="@string/popup_cancel"
+                android:textColor="@color/color_a5a5a5"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

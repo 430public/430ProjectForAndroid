@@ -224,7 +224,7 @@ public class PagerSlidingIndicator extends HorizontalScrollView {
 
     private void addTextTab(final int position, String title) {
 
-        TextView tab = new TextView(getContext());
+        TextView tab = new BaseTextView(getContext());
         tab.setText(title);
         tab.setGravity(Gravity.CENTER);
         tab.setSingleLine();
@@ -261,9 +261,9 @@ public class PagerSlidingIndicator extends HorizontalScrollView {
 
             v.setBackgroundResource(tabBackgroundResId);
 
-            if (v instanceof TextView) {
+            if (v instanceof BaseTextView) {
 
-                TextView tab = (TextView) v;
+                TextView tab = (BaseTextView) v;
                 tab.setTextSize(TypedValue.COMPLEX_UNIT_PX, tabTextSize);
                 tab.setTypeface(tabTypeface, tabTypefaceStyle);
                 tab.setTextColor(tabTextColor);

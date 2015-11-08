@@ -1,8 +1,8 @@
 package com.projectforandroid.cache;
 
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.LruCache;
+import com.projectforandroid.imageloader.ImageLoaderCache;
 import org.json.JSONObject;
 
 /**
@@ -18,7 +18,8 @@ public class MemoryCache {
 
     private LruCache<String, JSONObject> mMemoryJsonCache;//JSON缓存
 
-    public MemoryCache() {
+    private volatile static MemoryCache instance;
+    private MemoryCache() {
 
         int maxMemory = (int) Runtime.getRuntime().maxMemory();
         int mBitmapCacheSize = maxMemory / 3;
@@ -40,6 +41,18 @@ public class MemoryCache {
                 return value.length();
             }
         };
+    }
+
+    public static MemoryCache getInstance() {
+        if (instance == null) {
+            Class imageLoaderClass = ImageLoaderCache.class;
+            synchronized (imageLoaderClass) {
+                if (instance == null) {
+                    instance = new MemoryCache();
+                }
+            }
+        }
+        return instance;
     }
 
 /*    *//** 从缓存获取 *//*
