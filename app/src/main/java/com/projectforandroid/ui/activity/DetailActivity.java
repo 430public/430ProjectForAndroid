@@ -60,7 +60,7 @@ public class DetailActivity extends BaseActivity {
     private String time;
     private String Sumdata;
     private String picurl;
-    private  StarBean bean;
+    private StarBean bean;
     private Intent intent;//向ColleActivity发送数据
 
     @Override
@@ -80,8 +80,8 @@ public class DetailActivity extends BaseActivity {
     private void setData() {
         dlist = getIntent().getStringArrayListExtra("detial");
         FromUrl = dlist.get(2);
-        bean=ProjectApplication.starMap.get(MD5Tools.hashKey(FromUrl));
-        if (bean!=null&&bean.getIsStar()){
+        bean = ProjectApplication.starMap.get(MD5Tools.hashKey(FromUrl));
+        if (bean != null && bean.getIsStar()) {
             collect_checkbox.setChecked(true);
         }
         mRunable = new runable(FromUrl);
@@ -97,17 +97,19 @@ public class DetailActivity extends BaseActivity {
                     CollectList = dlist;
                     UIHelper.ToastMessage(DetailActivity.this, "成功收藏", R.drawable.toast_emoji);
                     saveData();
-                    bean.setIsStar(true);
-                }
-                else if(!(collect_checkbox.isChecked())){
+                    ProjectApplication.notifyToRefreshStarMap();
+                    bean = ProjectApplication.starMap.get(MD5Tools.hashKey(FromUrl));
+                    if (bean != null) bean.setIsStar(true);
+                } else if (!(collect_checkbox.isChecked())) {
                     UIHelper.ToastMessage(DetailActivity.this, "取消收藏", R.drawable.toast_emoji);
                     FileUtils.delete(MD5Tools.hashKey(FromUrl),
                         ProjectApplication.getLocalStarPath());
-                    bean.setIsStar(false);
+                    ProjectApplication.notifyToRefreshStarMap();
+                    bean = ProjectApplication.starMap.get(MD5Tools.hashKey(FromUrl));
+                    if (bean != null) bean.setIsStar(false);
                 }
             }
         });
-
     }
 
     /* 将要收藏的新闻的数据存到本地 */
@@ -124,26 +126,23 @@ public class DetailActivity extends BaseActivity {
         if (!CollectCache.exists()) CollectCache.mkdirs();
         //往文件夹内写入收藏新闻的数据
         resolution();
-        byte[] bytes=Sumdata.getBytes();
+        byte[] bytes = Sumdata.getBytes();
         FileUtils.saveBytesToSD(CollectCache.getAbsolutePath(), MD5Tools.hashKey(url), bytes);
     }
 
     /* 将CollectList数据进行解析 */
     private void resolution() {
         title = CollectList.get(0);
-        description=CollectList.get(1);
-        url=CollectList.get(2);
-        time=CollectList.get(3);
-        picurl=CollectList.get(4);
-        Sumdata="{"+"\"title\""+":"+"\""+title+"\""+","
-            +"\"description\""+":"+"\""+description+"\""+","
-            +"\"url\""+":"+"\""+url+"\""+","
-            +"\"time\""+":"+"\""+time+"\""+","
-            +"\"picurl\""+":"+"\""+picurl+"\""+"}";//将数据转为Json格式
-
+        description = CollectList.get(1);
+        url = CollectList.get(2);
+        time = CollectList.get(3);
+        picurl = CollectList.get(4);
+        Sumdata =
+            "{" + "\"title\"" + ":" + "\"" + title + "\"" + "," + "\"description\"" + ":" + "\""
+                + description + "\"" + "," + "\"url\"" + ":" + "\"" + url + "\"" + "," + "\"time\""
+                + ":" + "\"" + time + "\"" + "," + "\"picurl\"" + ":" + "\"" + picurl + "\""
+                + "}";//将数据转为Json格式
     }
-
-
 
     private class runable implements Runnable {
         private String url;
@@ -154,13 +153,11 @@ public class DetailActivity extends BaseActivity {
 
         @Override
         public void run() {
-            WebSettings websettings=webview.getSettings();
+            WebSettings websettings = webview.getSettings();
             websettings.setUseWideViewPort(true);
             websettings.setLoadWithOverviewMode(true);
             webview.setInitialScale(75);
             webview.loadUrl(url);
-
         }
     }
-
 }

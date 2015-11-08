@@ -307,12 +307,14 @@ public class FileUtils {
 
     //将文件夹中的文件按修改时间进行排序
     public static void Filecompositor(File[] files) {
-        for (int i = 0; i < files.length; i++) {
-            for (int j = i + 1; j < files.length; j++) {
-                if (files[i].lastModified() < files[j].lastModified()) {
-                    File f = files[j];
-                    files[j] = files[i];
-                    files[i] = f;
+        if (files != null && files.length > 0) {
+            for (int i = 0; i < files.length; i++) {
+                for (int j = i + 1; j < files.length; j++) {
+                    if (files[i].lastModified() < files[j].lastModified()) {
+                        File f = files[j];
+                        files[j] = files[i];
+                        files[i] = f;
+                    }
                 }
             }
         }
@@ -325,15 +327,17 @@ public class FileUtils {
         File dir = new File(CollectCachePath);
         File[] files = dir.listFiles();
         FileUtils.Filecompositor(files);
-        for (int i = 0; i < files.length; i++) {
-            byte[] mBytes = FileUtils.getBytesFromSD(files[i].toString());
-            if (mBytes != null && mBytes.length >= 0) {
-                JSONObject object[] = { null };
-                try {
-                    object[0] = new JSONObject(new String(mBytes));
-                    list.add(object[0]);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if (files!=null&&files.length>0) {
+            for (int i = 0; i < files.length; i++) {
+                byte[] mBytes = FileUtils.getBytesFromSD(files[i].toString());
+                if (mBytes != null && mBytes.length >= 0) {
+                    JSONObject object[] = { null };
+                    try {
+                        object[0] = new JSONObject(new String(mBytes));
+                        list.add(object[0]);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -347,20 +351,22 @@ public class FileUtils {
         File dir = new File(CollectCachePath);
         File[] files = dir.listFiles();
         FileUtils.Filecompositor(files);
-        for (int i = 0; i < files.length; i++) {
-            byte[] mBytes = FileUtils.getBytesFromSD(files[i].toString());
-            StarBean bean = new StarBean();
-            if (mBytes != null && mBytes.length >= 0) {
-                JSONObject object[] = { null };
-                try {
-                    object[0] = new JSONObject(new String(mBytes));
-                    bean.setJson(object[0]);
-                    bean.setPath(files[i].getAbsolutePath());
-                    starMap.put(MD5Tools.hashKey(object[0].optString("url")), bean);
-                    bean.setIsStar(true);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.e("", "error to get starJson");
+        if (files!=null&&files.length>0) {
+            for (int i = 0; i < files.length; i++) {
+                byte[] mBytes = FileUtils.getBytesFromSD(files[i].toString());
+                StarBean bean = new StarBean();
+                if (mBytes != null && mBytes.length >= 0) {
+                    JSONObject object[] = { null };
+                    try {
+                        object[0] = new JSONObject(new String(mBytes));
+                        bean.setJson(object[0]);
+                        bean.setPath(files[i].getAbsolutePath());
+                        starMap.put(MD5Tools.hashKey(object[0].optString("url")), bean);
+                        bean.setIsStar(true);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e("", "error to get starJson");
+                    }
                 }
             }
         }

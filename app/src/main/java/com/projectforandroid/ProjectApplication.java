@@ -116,4 +116,9 @@ public class ProjectApplication extends Application {
     public void setHandler(BaseActivity.shareHandler handler) {
         mHandler = handler;
     }
+
+
+    public static void notifyToRefreshStarMap(){
+        starMap=FileUtils.getLocalStarJson();
+    }
 }
