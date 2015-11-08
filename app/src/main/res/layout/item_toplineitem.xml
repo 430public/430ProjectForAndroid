@@ -3,71 +3,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_96"
-    android:padding="@dimen/dp_8"
-    >
+    android:padding="@dimen/dp_8">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <ImageView
+            android:id="@+id/imgbutton_jiantou"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/btn_jiantou"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_16"
-            android:layout_alignTop="@+id/item_avatar"
             android:layout_alignBottom="@+id/item_avatar"
-            android:id="@+id/imgbutton_jiantou"
-            />
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/item_avatar"
+            android:layout_marginRight="@dimen/dp_16"
+            android:src="@drawable/btn_jiantou" />
+
         <com.projectforandroid.widget.GeneralImageView
+            android:id="@+id/item_avatar"
             android:layout_width="@dimen/dp_48"
             android:layout_height="@dimen/dp_48"
-            android:id="@+id/item_avatar"
-            tools:src="@drawable/header"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/dp_8"
-            />
+            tools:src="@drawable/header" />
+
         <RelativeLayout
             android:id="@+id/text_id"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toLeftOf="@id/imgbutton_jiantou"
-            android:layout_toRightOf="@id/item_avatar"
-            >
+            android:layout_toRightOf="@id/item_avatar">
 
 
-            <TextView
+            <com.projectforandroid.widget.BaseTextView
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/sp_16"
-                android:layout_marginLeft="@dimen/dp_8"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:id="@+id/tv_title"
-                android:textColor="@color/color_black"
-                android:text="Large Text"
                 android:layout_above="@+id/empty"
-                />
+                android:layout_marginLeft="@dimen/dp_8"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="Large Text"
+                android:textColor="@color/color_black"
+                android:textSize="@dimen/sp_16" />
+
             <View
+                android:id="@+id/empty"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_centerVertical="true"
-                android:id="@+id/empty"
-                />
-            <TextView
+                android:layout_centerVertical="true" />
+
+            <com.projectforandroid.widget.BaseTextView
+                android:id="@+id/tv_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_content"
-                android:layout_marginLeft="@dimen/dp_8"
-                android:textSize="@dimen/sp_13"
-                android:textColor="@color/color_a5a5a5"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:text="Large Text"
-                android:layout_below="@+id/empty"
                 android:layout_alignTop="@+id/empty"
-                />
+                android:layout_below="@+id/empty"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="Large Text"
+                android:textColor="@color/color_a5a5a5"
+                android:textSize="@dimen/sp_13" />
         </RelativeLayout>
 
 

@@ -43,6 +43,14 @@
     <string name="email_error">邮箱格式错误哦</string>
     <!--Settings-->
     <string name="setting_nophotomode">无图浏览</string>
+    <string name="setting_toast_restart">重启以看见效果</string>
+
+    <!--About SharedPreference-->
+    <string name="pre_name_setting">"settring"</string>
+    <string name="pre_attr_name_text_size">"text_size"</string>
+    <string name="pre_attr_textsize_big">"big"</string>
+    <string name="pre_attr_textsize_normal">"normal"</string>
+    <string name="pre_attr_textsize_small">"small"</string>
 
 
 </resources>
