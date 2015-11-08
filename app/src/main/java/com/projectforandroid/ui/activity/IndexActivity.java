@@ -11,6 +11,7 @@ import com.projectforandroid.ui.activity.base.BaseActivity;
 import com.projectforandroid.ui.fragment.EntertainmentFragment;
 import com.projectforandroid.ui.fragment.SportFragment;
 import com.projectforandroid.ui.fragment.TopLineFragment;
+import com.projectforandroid.utils.viewutils.MakeUnitUtils;
 import com.projectforandroid.widget.PagerSlidingIndicator;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,15 +67,11 @@ public class IndexActivity extends BaseActivity implements ViewPager.OnPageChang
         vh.mTabStrip.setIndicatorColor(ProjectApplication.getResColor(R.color.color_00bcd4));
         vh.mTabStrip.setIndicatorHeight((int) ProjectApplication.getResDimen(R.dimen.dp_3));
         vh.mTabStrip.setTextColor(ProjectApplication.getResColor(R.color.color_a5a5a5));
-        vh.mTabStrip.setTextSize(28);
+        vh.mTabStrip.setTextSize(MakeUnitUtils.sp2px(this, 14));
         // 监听
         vh.mTabStrip.setOnPageChangeListener(this);
-
-
-
-
-
-
+        //设置ViewPager的缓存页数
+        vh.mViewPager.setOffscreenPageLimit(3);
     }
 
     //------------------------------------------页面切换监听-----------------------------------------------

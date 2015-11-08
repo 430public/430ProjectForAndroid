@@ -60,7 +60,7 @@ public class ImageLoaderCache {
             .diskCacheSize(30 * 1024 * 1024)//磁盘缓存大小30M
             .diskCacheFileNameGenerator(new Md5FileNameGenerator())//MD5保存文件名
             .diskCacheFileCount(120)//最多100张图片
-            .writeDebugLogs()//写入日志
+            //.writeDebugLogs()//写入日志
             .build();
         mLoader.init(configuration);
     }

@@ -28,6 +28,7 @@ public class ProjectApplication extends Application {
 
     //共享handler，用于不同activity之间的数据共享
     private BaseActivity.shareHandler mHandler=null;
+    private boolean mIsTextConfigChanged = false;
 
     @Override
     public void onCreate() {
@@ -120,5 +121,13 @@ public class ProjectApplication extends Application {
 
     public static void notifyToRefreshStarMap(){
         starMap=FileUtils.getLocalStarJson();
+    }
+
+    public boolean isTextConfigChanged() {
+        return mIsTextConfigChanged;
+    }
+
+    public void setIsTextConfigChanged(boolean mIsTextConfigChanged) {
+        this.mIsTextConfigChanged = mIsTextConfigChanged;
     }
 }
