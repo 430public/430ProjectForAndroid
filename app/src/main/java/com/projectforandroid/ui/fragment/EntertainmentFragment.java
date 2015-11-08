@@ -4,23 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 import com.projectforandroid.ProjectApplication;
 import com.projectforandroid.R;
 import com.projectforandroid.adapter.EntertainmentFragmentAdapter;
 import com.projectforandroid.data.EntertainmentBean;
-import com.projectforandroid.data.HotNewBean;
+import com.projectforandroid.data.SportNewsBean;
 import com.projectforandroid.http.OnResponseListener;
 import com.projectforandroid.http.request.EntertainmentRequest;
 import com.projectforandroid.http.respon.BaseResponse;
 import com.projectforandroid.ui.UIHelper;
-import com.projectforandroid.ui.activity.DetailActivity;
 import com.projectforandroid.utils.dateutils.DateUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +60,7 @@ public class EntertainmentFragment extends Fragment implements OnResponseListene
                 detiallist.add(2,mlist.get(position).url);
                 detiallist.add(3, String.valueOf(mlist.get(position).time));
                 detiallist.add(4,mlist.get(position).picUrl);
-                UIHelper.startToDetialActivity(getActivity(), intent, detiallist);
+                UIHelper.startToDetialActivity(getActivity(), detiallist);
             }
         });
         return view;
@@ -74,7 +71,15 @@ public class EntertainmentFragment extends Fragment implements OnResponseListene
             DateUtils.getyyyyMMddHHmmss(System.currentTimeMillis()),
             ProjectApplication.getSecretKey());
         mEntertainmentRequest.setOnResponseListener(this);
-        mEntertainmentRequest.execute();
+        if (mEntertainmentRequest.LoadCache() != null) {
+            EntertainmentBean ebean = (EntertainmentBean) mEntertainmentRequest.LoadCache();
+            this.mlist.clear();
+            this.mlist.addAll(ebean.getEntertainmentBeans());
+            EntertainmentAdapter.notifyDataSetChanged();
+            mEntertainmentRequest.execute();
+        } else {
+            mEntertainmentRequest.execute();
+        }
 
     }
 

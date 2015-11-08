@@ -241,10 +241,9 @@ public class UIHelper {
         c.startActivity(intent);
     }
     /**启动到新闻详细内容*/
-    public static void startToDetialActivity(Activity c,Intent intent,ArrayList<String> list) {
-        intent = new Intent(c, DetailActivity.class);
-        intent.putStringArrayListExtra("detial",list);
+    public static void startToDetialActivity(Activity c,ArrayList<String> list) {
+        Intent intent = new Intent(c, DetailActivity.class);
+        intent.putStringArrayListExtra("detial", list);
         c.startActivity(intent);
-        c.finish();
     }//点击新闻后跳转到详细页面
 }

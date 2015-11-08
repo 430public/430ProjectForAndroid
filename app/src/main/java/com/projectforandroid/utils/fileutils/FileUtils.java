@@ -2,7 +2,11 @@ package com.projectforandroid.utils.fileutils;
 
 import android.os.Environment;
 import android.os.StatFs;
+import android.util.Log;
 import com.projectforandroid.ProjectApplication;
+import com.projectforandroid.data.HotNewBean;
+import com.projectforandroid.data.StarBean;
+import com.projectforandroid.utils.MD5Tools;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -11,7 +15,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by 大灯泡 on 2015/9/20.
@@ -309,4 +317,66 @@ public class FileUtils {
             }
         }
     }
+
+    //------------------------------------------从本地获取收藏新闻的数据-----------------------------------------------
+    public static List<JSONObject> getDataFromCache() {
+        List<JSONObject> list = new ArrayList<>();
+        String CollectCachePath = ProjectApplication.getLocalStarPath();
+        File dir = new File(CollectCachePath);
+        File[] files = dir.listFiles();
+        FileUtils.Filecompositor(files);
+        for (int i = 0; i < files.length; i++) {
+            byte[] mBytes = FileUtils.getBytesFromSD(files[i].toString());
+            if (mBytes != null && mBytes.length >= 0) {
+                JSONObject object[] = { null };
+                try {
+                    object[0] = new JSONObject(new String(mBytes));
+                    list.add(object[0]);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
+
+    //------------------------------------------获取本地收藏文件-----------------------------------------------
+    public static Map<String, StarBean> getLocalStarJson() {
+        Map<String, StarBean> starMap = new HashMap<>();
+        String CollectCachePath = ProjectApplication.getLocalStarPath();
+        File dir = new File(CollectCachePath);
+        File[] files = dir.listFiles();
+        FileUtils.Filecompositor(files);
+        for (int i = 0; i < files.length; i++) {
+            byte[] mBytes = FileUtils.getBytesFromSD(files[i].toString());
+            StarBean bean = new StarBean();
+            if (mBytes != null && mBytes.length >= 0) {
+                JSONObject object[] = { null };
+                try {
+                    object[0] = new JSONObject(new String(mBytes));
+                    bean.setJson(object[0]);
+                    bean.setPath(files[i].getAbsolutePath());
+                    starMap.put(MD5Tools.hashKey(object[0].optString("url")), bean);
+                    bean.setIsStar(true);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("", "error to get starJson");
+                }
+            }
+        }
+        return starMap;
+    }
+
+    //------------------------------------------根据文件名删除文件-----------------------------------------------
+    public static void delete(String filename, String path) {
+        File dir = new File(path);
+        File[] files = dir.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            if (files[i].toString().equals(path + "/" + filename)) {
+                files[i].delete();
+            }
+        }
+    }
+
+
 }

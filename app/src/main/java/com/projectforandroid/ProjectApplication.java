@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import com.projectforandroid.cache.DiskCache;
+import com.projectforandroid.data.StarBean;
 import com.projectforandroid.imageloader.ImageLoaderCache;
 import com.projectforandroid.ui.activity.base.BaseActivity;
 import com.projectforandroid.utils.camerautils.CameraUtils;
 import com.projectforandroid.utils.fileutils.FileUtils;
 import com.projectforandroid.utils.stringutils.StringUtils;
 import java.io.File;
+import java.util.Map;
 
 /**
  * Created by 大灯泡 on 2015/9/19.
@@ -21,6 +23,8 @@ public class ProjectApplication extends Application {
     public static String version;
     public static SharedPreferences sharedPreferences;
     public static SharedPreferences.Editor editor;
+
+    public static Map<String,StarBean> starMap;//个人收藏的Map
 
     //共享handler，用于不同activity之间的数据共享
     private BaseActivity.shareHandler mHandler=null;
@@ -37,6 +41,7 @@ public class ProjectApplication extends Application {
         FileUtils.createFolder(getRootPath(), "images");
         CameraUtils.cleanImgs();
         DiskCache.cleanOverCache();
+        starMap=FileUtils.getLocalStarJson();
         long end=System.currentTimeMillis();
         Log.d("haoshi",""+(end-start));
     }
@@ -87,8 +92,21 @@ public class ProjectApplication extends Application {
         return "https://route.showapi.com/196-1";
     }
 
-    public static String getPhotoImgPaht() {
+    /**得到相片的存储路径*/
+    public static String getPhotoImgPath() {
         return getRootPath() + File.separator + "images";
+    }
+
+    /**得到个人收藏的存储路径*/
+    public static String getCachePath(){
+        return  FileUtils.getSDCardPath()+"430project" + File.separator + "Cache"
+            + File.separator + "JsonCache";
+    }
+
+    /**得到个人收藏的存储路径*/
+    public static String getLocalStarPath(){
+        return  FileUtils.getSDCardPath()+ "430project" + File.separator + "Cache"
+            + File.separator + "CollectCache";
     }
 
     public BaseActivity.shareHandler getHandler() {

@@ -62,7 +62,7 @@ public class SportFragment extends Fragment implements OnResponseListener {
                 detiallist.add(2, slist.get(position).url);
                 detiallist.add(3, String.valueOf(slist.get(position).time));
                 detiallist.add(4,slist.get(position).picUrl);
-                UIHelper.startToDetialActivity(getActivity(), intent, detiallist);
+                UIHelper.startToDetialActivity(getActivity(), detiallist);
             }
         });
         return view;
@@ -78,6 +78,7 @@ public class SportFragment extends Fragment implements OnResponseListener {
             this.slist.clear();
             this.slist.addAll(sbean.getSportNewsBeans());
             mSportFragmentAdapter.notifyDataSetChanged();
+            mSportNewsRequest.execute();
         } else {
             mSportNewsRequest.execute();
         }

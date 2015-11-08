@@ -19,6 +19,8 @@ import com.projectforandroid.ProjectApplication;
 import com.projectforandroid.R;
 import com.projectforandroid.cache.DiskCache;
 import com.projectforandroid.data.HotNewBean;
+import com.projectforandroid.data.StarBean;
+import com.projectforandroid.ui.UIHelper;
 import com.projectforandroid.ui.activity.base.BaseActivity;
 import com.projectforandroid.utils.MD5Tools;
 import com.projectforandroid.utils.dateutils.DateUtils;
@@ -58,6 +60,7 @@ public class DetailActivity extends BaseActivity {
     private String time;
     private String Sumdata;
     private String picurl;
+    private  StarBean bean;
     private Intent intent;//向ColleActivity发送数据
 
     @Override
@@ -77,6 +80,10 @@ public class DetailActivity extends BaseActivity {
     private void setData() {
         dlist = getIntent().getStringArrayListExtra("detial");
         FromUrl = dlist.get(2);
+        bean=ProjectApplication.starMap.get(MD5Tools.hashKey(FromUrl));
+        if (bean!=null&&bean.getIsStar()){
+            collect_checkbox.setChecked(true);
+        }
         mRunable = new runable(FromUrl);
         mRunable.run();
     }
@@ -84,15 +91,23 @@ public class DetailActivity extends BaseActivity {
     private void Collect() {
         collect_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
+            //点击收藏
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (collect_checkbox.isChecked()) {
                     CollectList = dlist;
-                    Toast.makeText(DetailActivity.this, "成功收藏", Toast.LENGTH_SHORT).show();
+                    UIHelper.ToastMessage(DetailActivity.this, "成功收藏", R.drawable.toast_emoji);
                     saveData();
-
+                    bean.setIsStar(true);
+                }
+                else if(!(collect_checkbox.isChecked())){
+                    UIHelper.ToastMessage(DetailActivity.this, "取消收藏", R.drawable.toast_emoji);
+                    FileUtils.delete(MD5Tools.hashKey(FromUrl),
+                        ProjectApplication.getLocalStarPath());
+                    bean.setIsStar(false);
                 }
             }
         });
+
     }
 
     /* 将要收藏的新闻的数据存到本地 */
@@ -110,7 +125,7 @@ public class DetailActivity extends BaseActivity {
         //往文件夹内写入收藏新闻的数据
         resolution();
         byte[] bytes=Sumdata.getBytes();
-        FileUtils.saveBytesToSD(CollectCache.getAbsolutePath(),MD5Tools.hashKey(url),bytes);
+        FileUtils.saveBytesToSD(CollectCache.getAbsolutePath(), MD5Tools.hashKey(url), bytes);
     }
 
     /* 将CollectList数据进行解析 */
@@ -125,7 +140,10 @@ public class DetailActivity extends BaseActivity {
             +"\"url\""+":"+"\""+url+"\""+","
             +"\"time\""+":"+"\""+time+"\""+","
             +"\"picurl\""+":"+"\""+picurl+"\""+"}";//将数据转为Json格式
+
     }
+
+
 
     private class runable implements Runnable {
         private String url;
@@ -136,8 +154,13 @@ public class DetailActivity extends BaseActivity {
 
         @Override
         public void run() {
+            WebSettings websettings=webview.getSettings();
+            websettings.setUseWideViewPort(true);
+            websettings.setLoadWithOverviewMode(true);
+            webview.setInitialScale(75);
             webview.loadUrl(url);
-            webview.setInitialScale(100);
+
         }
     }
+
 }

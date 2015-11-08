@@ -73,4 +73,38 @@ public class EntertainmentRequest extends BaseHttpRequest {
         }
     }
 
+    public Object LoadCache() {
+        if (memoryCache.getJsonFromMemoryCache(MD5Tools.hashKey(getKey())) != null) {
+            JSONObject object = memoryCache.getJsonFromMemoryCache(MD5Tools.hashKey(getKey()));
+            if (object != null && mBaseResponse != null) {
+                mBaseResponse.setStatus(1);
+                try {
+                    getResponseData(mBaseResponse, object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+
+            try {
+                JSONObject object;
+                object = mDiskCache.getJsonCache(
+                    (String) DataUtils.getSharedPreferenceData(ProjectApplication.sharedPreferences,
+                        MD5Tools.hashKey(getKey()), MD5Tools.hashKey(getKey())));
+                if (object != null && mBaseResponse != null) {
+                    mBaseResponse.setStatus(1);
+                    getResponseData(mBaseResponse, object);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (mBaseResponse.getData() != null) {
+                return mBaseResponse.getData();
+            } else {
+
+            }
+        }
+        return null;
+    }
+
 }

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import com.projectforandroid.ProjectApplication;
 import com.projectforandroid.R;
 import com.projectforandroid.adapter.TopLineFragmentAdapter;
 import com.projectforandroid.data.HotNewBean;
@@ -19,6 +20,7 @@ import com.projectforandroid.http.respon.BaseResponse;
 import com.projectforandroid.ui.UIHelper;
 import com.projectforandroid.utils.DataUtils;
 import com.projectforandroid.utils.dateutils.DateUtils;
+import com.projectforandroid.utils.fileutils.FileUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +33,9 @@ public class TopLineFragment extends Fragment implements OnResponseListener {
     private ListView listView;
     private TopLineFragmentAdapter adapter;
     private Intent intent;
-    private ArrayList<String> detiallist=new ArrayList<>();
+    private ArrayList<String> detiallist = new ArrayList<>();
     private String str;
+
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -53,14 +56,13 @@ public class TopLineFragment extends Fragment implements OnResponseListener {
                  *3对应的是时间
                  *4对应的是图片
                  */
-                detiallist.add(0,mylist.get(position).title);
-                detiallist.add(1,mylist.get(position).description);
-                detiallist.add(2,mylist.get(position).fromurl);
-                str=DateUtils.getyyyyMMddHHmmss(mylist.get(position).time);
-                detiallist.add(3,str);
-                detiallist.add(4,mylist.get(position).img);
-                UIHelper.startToDetialActivity(getActivity(), intent,detiallist);
-
+                detiallist.add(0, mylist.get(position).title);
+                detiallist.add(1, mylist.get(position).description);
+                detiallist.add(2, mylist.get(position).fromurl);
+                str = DateUtils.getyyyyMMddHHmmss(mylist.get(position).time);
+                detiallist.add(3, str);
+                detiallist.add(4, mylist.get(position).img);
+                UIHelper.startToDetialActivity(getActivity(), detiallist);
             }
         });
         return view;
@@ -74,6 +76,7 @@ public class TopLineFragment extends Fragment implements OnResponseListener {
             this.mylist.clear();
             this.mylist.addAll(bean.getHotNewBeans());
             adapter.notifyDataSetChanged();
+            mHotNewsRequest.execute();
         } else {
             mHotNewsRequest.execute();
         }
@@ -91,7 +94,7 @@ public class TopLineFragment extends Fragment implements OnResponseListener {
 
     @Override
     public void onFailure(BaseResponse response) {
-        UIHelper.ToastMessage(this.getActivity(), "失败", 0);
+       UIHelper.ToastMessage(this.getActivity(), "连接失败", 0);
     }
 
     @Override
